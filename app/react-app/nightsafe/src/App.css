@@ -1,0 +1,97 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root{
+  /* 색깔 */
+  --black1: #333D4B;
+  --black2: #6B7684;
+  --gray1: #E5E8EB;
+  --gray2: #F8FAFB;
+  --point: #FFD75E;
+  --green: #B6F500;
+  --red: #C5172E;
+  /* 그림자 */
+  --nav_shadow: 0 0 4px 0 rgba(0,0,0,0.2);
+  --shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+  /* flex gap */
+  --gap8: 8px;
+  --gap40: 40px;
+  /* 폰트사이즈 */
+  --fontsize12: 12px;
+  --fontsize14: 14px;
+  --fontsize16: 16px;
+  --fontsize20: 20px;
+  --fontsize24: 24px;
+  --fontsize32: 32px;
+  /* borderRadius */
+  --border_radius: 12px;
+  /* padding */
+  --padding8_16: 8px 16px;
+  --padding12_24: 12px 24px;
+  --padding20: 20px;
+  --padding40: 40px;
+  --padding320: 320px;
+  /* margin */
+  --margin8: 8px;
+  --margin12: 12px;
+  --margin20: 20px;
+  --margin40: 40px;
+  --margin120: 120px;
+  /* divsize */
+  --navheight: 60px;
+}
+
+@font-face {
+  font-family: 'NotoSans';
+  src: url('./assets/font/NotoSans-VariableFont_wdth,wght.ttf') format('truetype');
+}
+
+html,body{
+  position: relative;
+  min-width: 100%;
+  color: var(--black1);
+  font-family: 'NotoSans';
+  font-size: var(--fontsize16);
+}
+
+ul,li{
+  list-style: none;
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+  font-family: 'NotoSans';
+}
+
+button{
+  border: none;
+  font-size: var(--fontsize16);
+}
+
+#header{
+  width: 100%;
+  height: var(--navheight);
+  padding: 0 var(--padding320);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: var(--gray1);
+  box-shadow: var(--nav_shadow);
+}
+
+#nav ul{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap40);
+  color: var(--black2);
+}
+
+.nav_active{
+  font-weight: bold;
+  color: var(--black1);
+}
