@@ -1,11 +1,9 @@
-import homeStyle from './home.module.css'
-import KakaoMap from '../hooks/KakaoMapLoad'
-import { useEffect, useState } from 'react'
+import MapLoader from '../components/MapLoader'
 
 const Home = () => {
     return(
         <section id="home" data-page="home">
-            <KakaoMap className={homeStyle.map}></KakaoMap>
+            <MapLoader />
         </section>
     )
 }
