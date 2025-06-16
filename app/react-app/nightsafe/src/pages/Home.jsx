@@ -1,6 +1,6 @@
 import homeStyle from './home.module.css'
 import KakaoMap from '../hooks/KakaoMapLoad'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const Home = () => {
     return(
