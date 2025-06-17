@@ -1,6 +1,5 @@
 {
   "name": "Java Dev Container",
-  "image": "vsc-dev_springboot-97e6e1f97c6f255a5bc7c681fca3f22fa04c19cdad1dae9e5d2a36378d58a492:latest",
   "build": {
     "dockerfile": "Dockerfile"
   },

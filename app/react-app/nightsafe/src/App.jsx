@@ -17,7 +17,7 @@ function App() {
           <li><NavLink to='/post' className={({ isActive }) => isActive ? 'nav_active' : ''}>제보</NavLink></li>
         </ul>
       </nav>
-    </header>
+    </header>z
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/post' element={<Posts/>} />
