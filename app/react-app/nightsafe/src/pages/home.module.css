@@ -6,4 +6,36 @@
 .map_wrap{
     width: 100%;
     height: calc(100vh - var(--navheight));
+    position: relative;
+}
+
+.tab_wrap{
+    position: absolute;
+    top: var(--margin20);
+    left: var(--margin20);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap8);
+    z-index: 999;
+}
+
+.btn_tab{
+    box-shadow: var(--shadow);
+    background-color: #fff;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: var(--gap8);
+    color: var(--black2);
+    padding: var(--padding8_16);
+    font-size: var(--fontsize14);
+}
+
+.tab_icon{
+    height: 32px;
+}
+
+.tab_active{
+    color: var(--black1);
+    font-weight: bold;
 }
