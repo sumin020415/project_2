@@ -52,7 +52,7 @@ h1{
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 13px;
+  font-size: var(--fontsize14);
   padding: 5px;
 }
 
@@ -129,7 +129,7 @@ h1{
   border-bottom: 2px solid transparent;
   cursor: pointer;
   font-weight: bold;
-  font-size: 14px;
+  font-size: var(--fontsize14);
 }
 
 .activeTab {

@@ -7,10 +7,22 @@ const Login = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('id')
 
+  const Users = {
+    userid: 'a',
+    password: '1234'
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('로그인 시도:', { userid, password })
-  };
+
+    if (userid !== Users.userid) {
+      alert('잘못된 아이디입니다.')
+    }else if (password !== Users.password) {
+      alert('비밀번호를 다시 확인해주세요.')
+    }else {
+      alert('로그인 성공')
+    }
+  }
 
   return (
     <section className={style.loginContainer}>
