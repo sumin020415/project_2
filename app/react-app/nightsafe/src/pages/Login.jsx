@@ -17,9 +17,9 @@ const Login = () => {
 
     if (userid !== Users.userid) {
       alert('잘못된 아이디입니다.')
-    }else if (password !== Users.password) {
+    } else if (password !== Users.password) {
       alert('비밀번호를 다시 확인해주세요.')
-    }else {
+    } else {
       alert('로그인 성공')
     }
   }
@@ -67,65 +67,65 @@ const Login = () => {
 
       {isModalOpen && (
         <div className={style.modalOverlay}>
-            <div className={style.modalContent}>
+          <div className={style.modalContent}>
             <div className={style.modalTabs}>
-                <button
+              <button
                 className={`${style.tabButton} ${activeTab === 'id' ? '' : style.activeTab}`}
                 onClick={() => setActiveTab('id')}
-                >
+              >
                 아이디 찾기
-                </button>
-                <button
+              </button>
+              <button
                 className={`${style.tabButton} ${activeTab === 'password' ? '' : style.activeTab}`}
                 onClick={() => setActiveTab('password')}
-                >
+              >
                 비밀번호 찾기
-                </button>
+              </button>
             </div>
 
             <h2 className={`${style.modaltext}`}>{activeTab === 'id' ? '아이디 찾기' : '비밀번호 찾기'}</h2>
-            <p  className={`${style.modaltext}`}>
-                {activeTab === 'id'
+            <p className={`${style.modaltext}`}>
+              {activeTab === 'id'
                 ? '가입 시 사용한 이메일을 입력하세요.'
                 : '비밀번호를 재설정할 아이디를 입력하세요.'}
             </p>
 
             {activeTab === 'id' && (
-                <input
+              <input
                 type="email"
                 placeholder="이메일"
                 className={style.modalInput}
-                />
+              />
             )}
 
             {activeTab === 'password' && (
-                <input
+              <input
                 type="text"
                 placeholder="아이디"
                 className={style.modalInput}
-                />
+              />
             )}
 
             <div className={style.modalActions}>
-                <button
-                    onClick={() => {
-                    if (activeTab === 'id') {
-                        alert('아이디 찾기');
-                    } else {
-                        alert('비밀번호 찾기');
-                    }
-                    }}
-                    className={style.modalButton}
-                >
-                    찾기
-                </button>
-                <button onClick={() => setIsModalOpen(false)} className={style.modalButton}>
-                    닫기
-                </button>
-                </div>
+              <button
+                onClick={() => {
+                  if (activeTab === 'id') {
+                    alert('아이디 찾기');
+                  } else {
+                    alert('비밀번호 찾기');
+                  }
+                }}
+                className={style.modalButton}
+              >
+                찾기
+              </button>
+              <button onClick={() => setIsModalOpen(false)} className={style.modalButton}>
+                닫기
+              </button>
             </div>
+          </div>
         </div>
-        )}
+      )}
     </section>
   )
 }
