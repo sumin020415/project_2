@@ -1,15 +1,19 @@
 import { useState } from 'react'
 import style from './login.module.css'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const [userid, setUserid] = useState('')
   const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('id')
+  const navigate = useNavigate()
 
   const Users = {
     userid: 'a',
-    password: '1234'
+    password: '1234',
+    email: 'aaa'
   }
 
   const handleSubmit = (e) => {
@@ -20,7 +24,23 @@ const Login = () => {
     } else if (password !== Users.password) {
       alert('비밀번호를 다시 확인해주세요.')
     } else {
-      alert('로그인 성공')
+      navigate('/')
+    }
+  }
+
+  const handleFindId = () => {
+    if (email.trim() === Users.email) {
+      alert(`아이디는 ${Users.userid}입니다`)
+    } else {
+      alert('등록된 이메일이 없습니다.')
+    }
+  }
+
+  const handleFindPw = () => {
+    if (userid.trim() === Users.userid) {
+      alert(`비밀번호는 ${Users.password}입니다`)
+    } else {
+      alert('등록된 아이디가 없습니다.')
     }
   }
 
@@ -54,6 +74,7 @@ const Login = () => {
           <button className={style.subActionButton} onClick={() => {
             setIsModalOpen(true)
             setActiveTab('id')
+            setEmail('')
           }}>
             아이디/비밀번호 찾기
           </button>
@@ -70,13 +91,16 @@ const Login = () => {
           <div className={style.modalContent}>
             <div className={style.modalTabs}>
               <button
-                className={`${style.tabButton} ${activeTab === 'id' ? '' : style.activeTab}`}
-                onClick={() => setActiveTab('id')}
+                className={`${style.tabButton} ${activeTab === 'id' ? style.activeTab : ''}`}
+                onClick={() => {
+                  setActiveTab('id')
+                  setEmail('')
+                }}
               >
                 아이디 찾기
               </button>
               <button
-                className={`${style.tabButton} ${activeTab === 'password' ? '' : style.activeTab}`}
+                className={`${style.tabButton} ${activeTab === 'password' ? style.activeTab : ''}`}
                 onClick={() => setActiveTab('password')}
               >
                 비밀번호 찾기
@@ -94,6 +118,8 @@ const Login = () => {
               <input
                 type="email"
                 placeholder="이메일"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className={style.modalInput}
               />
             )}
@@ -102,21 +128,21 @@ const Login = () => {
               <input
                 type="text"
                 placeholder="아이디"
+                value={userid}
+                onChange={(e) => setUserid(e.target.value)}
                 className={style.modalInput}
               />
             )}
 
             <div className={style.modalActions}>
-              <button
-                onClick={() => {
-                  if (activeTab === 'id') {
-                    alert('아이디 찾기');
-                  } else {
-                    alert('비밀번호 찾기');
-                  }
-                }}
-                className={style.modalButton}
-              >
+              <button onClick={() => {
+                if (activeTab === 'id') {
+                  handleFindId()
+                } else {
+                  handleFindPw()
+                }
+              }}
+                className={style.modalButton}>
                 찾기
               </button>
               <button onClick={() => setIsModalOpen(false)} className={style.modalButton}>

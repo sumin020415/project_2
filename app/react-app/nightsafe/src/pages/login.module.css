@@ -124,7 +124,7 @@ h1{
 .tabButton {
   flex: 1;
   padding: 10px;
-  background-color: var(--gray1);
+  background-color: #fff;
   border: none;
   border-bottom: 2px solid transparent;
   cursor: pointer;
@@ -133,6 +133,5 @@ h1{
 }
 
 .activeTab {
-  background-color: #fff;
-  color: var(--point);
+  background-color: var(--gray1);
 }
