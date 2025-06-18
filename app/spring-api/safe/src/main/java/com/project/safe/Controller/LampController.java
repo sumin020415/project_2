@@ -1,0 +1,21 @@
+package com.project.safe.Controller;
+
+import com.project.safe.domain.Lamp;
+import com.project.safe.repository.LampRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/lamps")
+public class LampController {
+
+    @Autowired
+    private LampRepository lampRepository;
+
+    @GetMapping
+    public List<Lamp> getAllLamps() {
+        return lampRepository.findAll();
+    }
+}

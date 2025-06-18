@@ -13,12 +13,14 @@ function App() {
         <ul>
           <li><NavLink to='/' className={({ isActive }) => isActive ? 'nav_active' : ''}>홈</NavLink></li>
           <li><NavLink to='/post' className={({ isActive }) => isActive ? 'nav_active' : ''}>제보</NavLink></li>
+          <li><NavLink to='/login' className={({ isActive }) => isActive ? 'nav_active' : ''}>로그인</NavLink></li>
         </ul>
       </nav>
     </header>
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/post' element={<Posts/>} />
+        <Route path='/login' element={<Login/>} />
         <Route path='/write' element={<Write/>} />
       </Routes>
     </>
