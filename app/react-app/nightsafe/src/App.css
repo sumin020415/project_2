@@ -154,3 +154,23 @@ button{
   align-items: center;
   justify-content: center;
 } */
+
+.marker_info{
+    border-radius: var(--border_radius);
+    background-color: #fff;
+    padding: var(--padding12_24);
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+.marker_info::before{
+  position: absolute;
+  content : '';
+  bottom: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  z-index: 99;
+  background-color: #fff;
+  transform: translateX(-50%) rotate(45deg);
+}

@@ -1,6 +1,7 @@
 import './App.css'
 import Home from './pages/Home'
 import Posts from './pages/Posts'
+import Write from './pages/Write'
 import { NavLink, Routes, Route } from 'react-router-dom'
  
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/post' element={<Posts/>} />
+        <Route path='/write' element={<Write/>} />
       </Routes>
     </>
   )

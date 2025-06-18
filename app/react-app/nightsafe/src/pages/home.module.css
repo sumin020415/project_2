@@ -39,3 +39,18 @@
     color: var(--black1);
     font-weight: bold;
 }
+
+.btn_write{
+    border-radius: 50px;
+    padding: var(--padding12_24);
+    background-color: var(--point);
+    box-shadow: var(--shadow);
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    color: var(--black1);
+    font-family: 'NotoSans';
+    font-size: var(--fontsize16);
+}
