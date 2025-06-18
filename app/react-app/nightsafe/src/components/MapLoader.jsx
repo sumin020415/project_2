@@ -1,15 +1,24 @@
 import { useEffect, useState } from 'react'
 import map from '../pages/home.module.css'
 import KakaoMap from './KakaoMapLoad'
+import { Link } from 'react-router-dom'
 
 const MapLoader = () => {
   const [ready, setReady] = useState(false)
   const [selectedType, setSelectedType] = useState('보안등')
 
+  const WriteBtn = () => {
+    return (
+      <Link to ="/write">
+        <button className={map.btn_write}>제보글 쓰기</button>
+      </Link>
+    )
+  }
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setReady(true)
-    }, 1000)
+    }, 500)
     return () => clearTimeout(timer)
   }, [])
 
@@ -22,6 +31,7 @@ const MapLoader = () => {
             <button className={`${map.btn_tab} ${selectedType === 'CCTV' ? map.tab_active : ''}`} onClick={() => setSelectedType('CCTV')}><img className={map.tab_icon} src="./src/assets/icon/cctv.png" alt="cctv" />CCTV</button>
             <button className={`${map.btn_tab} ${selectedType === '제보' ? map.tab_active : ''}`} onClick={() => setSelectedType('제보')}><img className={map.tab_icon} src="./src/assets/icon/report.png" alt="제보" />제보</button>
           </div>
+          <WriteBtn />
           <KakaoMap className={map.map} selectedType={selectedType} />
         </>
       ) : (<div className='map_loading'>지도 준비중</div>)}

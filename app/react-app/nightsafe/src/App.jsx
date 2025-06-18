@@ -1,7 +1,7 @@
 import './App.css'
 import Home from './pages/Home'
 import Posts from './pages/Posts'
-import Login from './pages/Login'
+import Write from './pages/Write'
 import { NavLink, Routes, Route } from 'react-router-dom'
  
 function App() {
@@ -21,6 +21,7 @@ function App() {
         <Route path='/' element={<Home/>} />
         <Route path='/post' element={<Posts/>} />
         <Route path='/login' element={<Login/>} />
+        <Route path='/write' element={<Write/>} />
       </Routes>
     </>
   )

@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
+import map from '../pages/home.module.css'
 // import { MapContext } from '../hooks/MapContext'
 
 const KakaoMap = ({ className, selectedType }) => {
     const mapRef = useRef(null)
     const mapContainerRef = useRef(null)
-    const [mapInstance, setMapinstance] = useState(null)
+    const overlayRef = useRef(null)
     // const [map, setMap] = useState(null)
     const [lightData, setLightData] = useState([{ address: "부경대학교 대연캠퍼스", lat: 35.133990687598214, lng: 129.1055866490509 }, { address: "부경대학교 용당캠퍼스", lat: 35.116714582535984, lng: 129.08950233811953 }])
     const [CCTVData, setCCTVData] = useState([{ address: "부경대학교 대연캠퍼스", lat: 35.133990687598214, lng: 129.1055866490509 }, { address: "부경대학교 용당캠퍼스", lat: 35.116714582535984, lng: 129.08950233811953 }])
     const [reportData, setReportData] = useState([{ address: "부경대학교 대연캠퍼스", lat: 35.133990687598214, lng: 129.1055866490509 }, { address: "부경대학교 용당캠퍼스", lat: 35.116714582535984, lng: 129.08950233811953 }])
+    const [selectedMarkerInfo, setSelectedMarkerInfo] = useState(null)
 
     // restapi 예시
     // const fetchLightData = async () => {
@@ -54,8 +56,25 @@ const KakaoMap = ({ className, selectedType }) => {
         }
         const map = new window.kakao.maps.Map(mapContainerRef.current, options)
         mapRef.current = map
-        setMapinstance(map)
     }, [])
+
+    useEffect(() => {
+        const map = mapRef.current
+        if (!map) return
+
+        const handleClick = () => {
+            if (overlayRef.current) {
+                overlayRef.current.setMap(null)
+                overlayRef.current = null
+            }
+        }
+
+        window.kakao.maps.event.addListener(map, 'click', handleClick)
+
+        return () => {
+            window.kakao.maps.event.removeListener(map, 'click', handleClick)
+        }
+    }, [mapRef])
 
     useEffect(() => {
         if (!mapRef.current) return
@@ -66,15 +85,43 @@ const KakaoMap = ({ className, selectedType }) => {
         else if (selectedType === '제보') currentData = reportData
 
         const markers = currentData.map((point) => {
-            return new window.kakao.maps.Marker({
+            const marker = new window.kakao.maps.Marker({
                 map: mapRef.current,
                 position: new kakao.maps.LatLng(point.lat, point.lng),
                 image: getMarkerImage(selectedType),
             })
+
+            window.kakao.maps.event.addListener(marker, 'click', () => {
+                if (overlayRef.current) {
+                    const isSamePosition = overlayRef.current.getPosition().getLat() === marker.getPosition().getLat() &&
+                        overlayRef.current.getPosition().getLng() === marker.getPosition().getLng()
+
+                    overlayRef.current.setMap(null)
+                    overlayRef.current = null
+
+                    if (isSamePosition) return
+                }
+
+                const overlay = new window.kakao.maps.CustomOverlay({
+                    position: marker.getPosition(),
+                    content: `<div class="marker_info">${point.address}</div>`,
+                    yAnchor: 1.9
+                })
+
+                overlay.setMap(mapRef.current)
+                overlayRef.current = overlay
+            })
+
+            return marker
         })
+
 
         return () => {
             markers.forEach((m) => m.setMap(null))
+            if (overlayRef.current) {
+                overlayRef.current.setMap(null)
+                overlayRef.current = null
+            }
         }
     }, [selectedType, lightData, CCTVData, reportData])
 
