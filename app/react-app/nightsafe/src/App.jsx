@@ -2,6 +2,7 @@ import './App.css'
 import Home from './pages/Home'
 import Posts from './pages/Posts'
 import Write from './pages/Write'
+import Login from './pages/Login'
 import { NavLink, Routes, Route } from 'react-router-dom'
  
 function App() {

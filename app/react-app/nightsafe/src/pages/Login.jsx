@@ -100,7 +100,7 @@ const Login = () => {
                     if (activeTab === 'id') {
                         alert('아이디 찾기');
                     } else {
-                        alert('비밀번호 찾기 기능 호출');
+                        alert('비밀번호 찾기');
                     }
                     }}
                     className={style.modalButton}
