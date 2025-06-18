@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/lamps")
+@RequestMapping("/api")
 public class LampController {
 
     @Autowired
     private LampRepository lampRepository;
 
-    @GetMapping
+    @GetMapping("/lamps")
     public List<Lamp> getAllLamps() {
         return lampRepository.findAll();
     }
