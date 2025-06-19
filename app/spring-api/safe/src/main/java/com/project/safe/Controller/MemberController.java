@@ -57,4 +57,17 @@ public class MemberController {
         String welcomeMessage = member.getNickname() + "님, 환영합니다!";
         return ResponseEntity.ok(Map.of("message", welcomeMessage));
     }
+
+    @GetMapping("/check-id")
+    public ResponseEntity<Map<String, Boolean>> checkUserId(@RequestParam String id) {
+        boolean duplicate = memberRepository.existsByUserId(id);
+        return ResponseEntity.ok(Map.of("duplicate", duplicate));
+    }
+
+    @GetMapping("/check-email")
+    public ResponseEntity<Map<String, Boolean>> checkEmail(@RequestParam String email) {
+        boolean duplicate = memberRepository.existsByUserEmail(email);
+        return ResponseEntity.ok(Map.of("duplicate", duplicate));
+    }
+
 }
