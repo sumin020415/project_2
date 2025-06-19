@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import style from './login.module.css';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import style from './login.module.css'
 
 const Login = () => {
-  const [userid, setUserid] = useState('');
-  const [password, setPassword] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('id');
+  const [userid, setUserid] = useState('')
+  const [password, setPassword] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('id')
 
-  const navigate = useNavigate();
-
+  const navigate = useNavigate()
+  
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('로그인 시도:', { userid, password });
-  };
+    e.preventDefault()
+    console.log('로그인 시도:', { userid, password })
+  }
 
   return (
     <section className={style.loginContainer}>
@@ -45,8 +45,8 @@ const Login = () => {
           <button
             className={style.subActionButton}
             onClick={() => {
-              setIsModalOpen(true);
-              setActiveTab('id');
+              setIsModalOpen(true)
+              setActiveTab('id')
             }}
           >
             아이디/비밀번호 찾기
@@ -55,7 +55,7 @@ const Login = () => {
         <li>
           <button
             className={style.subActionButton}
-            onClick={() => navigate('/signup')} // 🔥 이 부분 변경됨
+            onClick={() => navigate('/signup')}
           >
             회원가입
           </button>
@@ -111,9 +111,9 @@ const Login = () => {
               <button
                 onClick={() => {
                   if (activeTab === 'id') {
-                    alert('아이디 찾기');
+                    alert('아이디 찾기')
                   } else {
-                    alert('비밀번호 찾기');
+                    alert('비밀번호 찾기')
                   }
                 }}
                 className={style.modalButton}
@@ -131,7 +131,7 @@ const Login = () => {
         </div>
       )}
     </section>
-  );
-};
+  )
+}
 
 export default Login;
