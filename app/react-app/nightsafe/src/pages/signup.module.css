@@ -1,31 +1,30 @@
 .container {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 500px;
+  margin: 160px auto;
+  padding: 30px;
+  border-radius: 8px;
   background-color: #fff;
 }
 
 .form {
-  width: 440px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
 }
 
 .title {
-  text-align: center;
   font-size: 28px;
   font-weight: 700;
   color: #333D4B;
-  margin-bottom: 24px;
+  text-align: left;
+  margin-bottom: 20px;
+  padding-bottom: 0;
 }
 
 .fieldRow {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+  margin-bottom: 8px;
 }
 
 .inputGroup {
@@ -35,49 +34,68 @@
 
 .inputGroup input {
   flex: 1;
-  height: 52px;
-  padding: 0 14px;
-  border: 1px solid #e5e8eb;
-  border-radius: 10px;
-  font-size: 15px;
-}
-
-.checkButton {
-  width: 88px;
-  height: 52px;
-  background-color: #FFD75E;
-  border: none;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 500;
-  color: #333D4B;
-  cursor: pointer;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
 }
 
 input {
-  height: 52px;
-  padding: 0 14px;
-  border: 1px solid #e5e8eb;
-  border-radius: 10px;
-  font-size: 15px;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+input:focus,
+.inputGroup input:focus {
+  border-color: var(--point);
+  box-shadow: 0 0 5px var(--point);
+}
+
+.checkButton {
+  width: 100px;
+  height: 44px;
+  background-color: var(--point);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--black1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.checkButton:disabled {
+  background-color: #E0E0E0;
+  color: #999;
+  cursor: not-allowed;
 }
 
 label {
   font-size: 14px;
   font-weight: 500;
   color: #6B7684;
+  margin-bottom: 4px;
 }
 
 .submitButton {
-  height: 54px;
-  background-color: #FFD75E;
+  height: 44px;
+  background-color: var(--point);
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 15px;
   font-weight: 600;
-  color: #333D4B;
+  color: var(--black1);
   cursor: pointer;
-  margin-top: 16px;
+  margin-top: 12px;
+  transition: background-color 0.3s ease;
 }
 
 .submitButton:disabled {
@@ -89,5 +107,6 @@ label {
 .errorMsg {
   font-size: 13px;
   color: red;
-  margin-top: -4px;
+  margin-top: -2px;
+  min-height: 18px;
 }
