@@ -6,7 +6,7 @@
   background-color: #fff;
 }
 
-h1{
+h1 {
   padding-bottom: 20px;
 }
 
@@ -109,7 +109,7 @@ h1{
   background-color: var(--point);
 }
 
-.modaltext{
+.modaltext {
   margin: 15px;
 }
 

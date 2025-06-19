@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Signup() {
     const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         userId: '',
         userPw: '',
@@ -13,52 +14,36 @@ function Signup() {
     });
 
     const [emailValid, setEmailValid] = useState(false);
-
-    // 중복 체크 변수들 주석처리
-    // const [emailDuplicate, setEmailDuplicate] = useState(true);
-    // const [idDuplicate, setIdDuplicate] = useState(true);
+    const [idDuplicate, setIdDuplicate] = useState(null);        
+    const [emailDuplicate, setEmailDuplicate] = useState(null);  
 
     useEffect(() => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         setEmailValid(regex.test(formData.userEmail));
     }, [formData.userEmail]);
 
-    // 이메일 중복 확인 주석처리
-    /*
-    useEffect(() => {
-        const checkEmail = async () => {
-            if (emailValid) {
-                try {
-                    const res = await axios.get(`http://localhost:8080/api/check-email?email=${formData.userEmail}`);
-                    setEmailDuplicate(res.data.duplicate);
-                } catch (err) {
-                    console.error('이메일 중복 확인 실패', err);
-                }
-            }
-        };
-        checkEmail();
-    }, [formData.userEmail, emailValid]);
-    */
-
-    // 아이디 중복 확인
-    /*
-    useEffect(() => {
-        const checkId = async () => {
-            if (formData.userId.length > 0) {
-                try {
-                    const res = await axios.get(`http://localhost:8080/api/check-id?id=${formData.userId}`);
-                    setIdDuplicate(res.data.duplicate);
-                } catch (err) {
-                    console.error('아이디 중복 확인 실패', err);
-                }
-            }
-        };
-        checkId();
-    }, [formData.userId]);
-    */
-
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const checkId = async () => {
+        if (!formData.userId) return;
+        try {
+            const res = await axios.get(`/api/check-id?id=${formData.userId}`);
+            setIdDuplicate(res.data.duplicate);
+        } catch (err) {
+            console.error('아이디 중복 확인 오류', err);
+        }
+    };
+
+    const checkEmail = async () => {
+        if (!emailValid) return;
+        try {
+            const res = await axios.get(`/api/check-email?email=${formData.userEmail}`);
+            setEmailDuplicate(res.data.duplicate);
+        } catch (err) {
+            console.error('이메일 중복 확인 오류', err);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -73,67 +58,77 @@ function Signup() {
         }
     };
 
-    // 중복 검사 조건 제거
-    const isDisabled = !emailValid; // 원래는 || emailDuplicate || idDuplicate
-
     return (
         <div className={styles.container}>
-            <h2 className={styles.title}>회원가입</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <h2 className={styles.title}>회원가입</h2>
+
+                <div className={styles.fieldRow}>
                     <label htmlFor="userId">아이디</label>
-                    <input
-                        name="userId"
-                        id="userId"
-                        className={`${styles.inputBox} ${styles.inputBoxAccent}`}
-                        onChange={handleChange}
-                        required
-                    />
-                    {/* 
-                    {!idDuplicate && <span className={styles.validMsg}>사용 가능한 아이디입니다.</span>}
-                    {idDuplicate && formData.userId && <span className={styles.errorMsg}>이미 사용 중인 아이디입니다.</span>}
-                    */}
+                    <div className={styles.inputGroup}>
+                        <input
+                            name="userId"
+                            id="userId"
+                            onChange={handleChange}
+                            value={formData.userId}
+                            required
+                        />
+                        <button type="button" className={styles.checkButton} onClick={checkId}>
+                            중복확인
+                        </button>
+                    </div>
+                    {idDuplicate === false && <span style={{ color: 'green', fontSize: '13px' }}>사용 가능한 아이디입니다.</span>}
+                    {idDuplicate === true && <span className={styles.errorMsg}>이미 사용 중인 아이디입니다.</span>}
                 </div>
 
-                <div>
+                <div className={styles.fieldRow}>
                     <label htmlFor="userPw">비밀번호</label>
                     <input
                         name="userPw"
                         id="userPw"
                         type="password"
-                        className={styles.inputBox}
                         onChange={handleChange}
+                        value={formData.userPw}
                         required
                     />
                 </div>
 
-                <div>
+                <div className={styles.fieldRow}>
                     <label htmlFor="nickname">닉네임</label>
                     <input
                         name="nickname"
                         id="nickname"
-                        className={styles.inputBox}
                         onChange={handleChange}
+                        value={formData.nickname}
                     />
                 </div>
 
-                <div>
+                <div className={styles.fieldRow}>
                     <label htmlFor="userEmail">이메일</label>
-                    <input
-                        name="userEmail"
-                        id="userEmail"
-                        className={styles.inputBox}
-                        onChange={handleChange}
-                        required
-                    />
-                    {!emailValid && formData.userEmail && <span className={styles.errorMsg}>올바른 이메일 형식이 아닙니다.</span>}
-                    {/* 
-                    {emailValid && !emailDuplicate && <span className={styles.validMsg}>사용 가능한 이메일입니다.</span>}
-                    {emailValid && emailDuplicate && <span className={styles.errorMsg}>이미 등록된 이메일입니다.</span>}
-                    */}
+                    <div className={styles.inputGroup}>
+                        <input
+                            name="userEmail"
+                            id="userEmail"
+                            onChange={handleChange}
+                            value={formData.userEmail}
+                            required
+                        />
+                        <button type="button" className={styles.checkButton} onClick={checkEmail}>
+                            중복확인
+                        </button>
+                    </div>
+                    {!emailValid && formData.userEmail && (
+                        <span className={styles.errorMsg}>올바른 이메일 형식이 아닙니다.</span>
+                    )}
+                    {emailValid && emailDuplicate === false && <span style={{ color: 'green', fontSize: '13px' }}>사용 가능한 이메일입니다.</span>}
+                    {emailValid && emailDuplicate === true && <span className={styles.errorMsg}>이미 등록된 이메일입니다.</span>}
                 </div>
 
-                <button type="submit" className={styles.submitButton} disabled={isDisabled}>
+                <button
+                    type="submit"
+                    className={styles.submitButton}
+                    disabled={!emailValid || emailDuplicate || idDuplicate}
+                >
                     가입하기
                 </button>
             </form>

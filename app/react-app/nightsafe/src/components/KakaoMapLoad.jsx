@@ -26,7 +26,7 @@ const KakaoMap = ({ className, selectedType }) => {
 
     const fetchCCTVData = async () => {
         try {
-            const res = await axios.get('/api/cctv')
+            const res = await axios.get('/api/cctvs')
             setCCTVData([...res.data])
         }
         catch (err) {
@@ -153,7 +153,7 @@ const KakaoMap = ({ className, selectedType }) => {
         }
 
         redrawMarkers()
-        
+
         window.kakao.maps.event.addListener(mapRef.current, 'idle', redrawMarkers)
 
         return () => {

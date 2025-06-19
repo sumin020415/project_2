@@ -68,7 +68,7 @@ const Login = () => {
         <li>
           <button
             className={style.subActionButton}
-            onClick={() => navigate('/signup')} // 🔥 이 부분 변경됨
+            onClick={() => navigate('/signup')} 
           >
             회원가입
           </button>
