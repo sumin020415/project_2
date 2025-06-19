@@ -10,7 +10,7 @@ const KakaoMap = ({ className, selectedType }) => {
     const clustererRef = useRef(null)
     // const [map, setMap] = useState(null)
     const [lightData, setLightData] = useState([])
-    const [CCTVData, setCCTVData] = useState([{ address: "부경대학교 대연캠퍼스", latitude: 35.133990687598214, longitude: 129.1055866490509 }, { address: "부경대학교 용당캠퍼스", latitude: 35.116714582535984, longitude: 129.08950233811953 }])
+    const [CCTVData, setCCTVData] = useState([])
     const [reportData, setReportData] = useState([{ address: "부경대학교 대연캠퍼스", latitude: 35.133990687598214, longitude: 129.1055866490509 }, { address: "부경대학교 용당캠퍼스", latitude: 35.116714582535984, longitude: 129.08950233811953 }])
 
     // restapi 예시
@@ -24,10 +24,15 @@ const KakaoMap = ({ className, selectedType }) => {
         }
     }
 
-    // const fetchCCTVData = async () => {
-    //     const res = await axios.get('/api/markers/cctv')
-    //     setCctvData(res.data)
-    // }
+    const fetchCCTVData = async () => {
+        try {
+            const res = await axios.get('/api/cctv')
+            setCCTVData([...res.data])
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
 
     // const fetchReportData = async () => {
     //     const res = await axios.get('/api/markers/report')
@@ -36,7 +41,7 @@ const KakaoMap = ({ className, selectedType }) => {
 
     useEffect(() => {
         if (selectedType === '보안등') fetchLightData()
-        // if (selectedType === 'CCTV' && cctvData.length === 0) fetchCCTVData()
+        if (selectedType === 'CCTV') fetchCCTVData()
         // if (selectedType === '제보' && reportData.length === 0) fetchReportData()
     }, [selectedType])
 

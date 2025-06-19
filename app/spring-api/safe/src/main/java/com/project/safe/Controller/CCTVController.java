@@ -7,15 +7,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-// @CrossOrigin(origins = "http://localhost:5173")
 @RestController
-@RequestMapping("/api/cctvs")
+@RequestMapping("/api")
 public class CCTVController {
 
     @Autowired
     private CCTVRepository cctvRepository;
 
-    @GetMapping
+    @GetMapping("/cctv")
     public List<CCTV> getAllCctvs() {
         return cctvRepository.findAll();
     }
