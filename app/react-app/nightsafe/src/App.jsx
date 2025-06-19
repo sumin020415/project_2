@@ -1,7 +1,7 @@
 import './App.css'
 import Home from './pages/Home'
 import Posts from './pages/Posts'
-// import Write from './pages/Write'
+import Write from './pages/Write'
 import Login from './pages/Login'
 import Signup from './pages/signup'
 
@@ -25,7 +25,7 @@ function App() {
         <Route path='/post' element={<Posts />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
-        {/* <Route path='/write' element={<Write />} /> */}
+        <Route path='/write' element={<Write />} />
       </Routes>
     </>
   )

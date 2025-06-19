@@ -1,9 +1,9 @@
-import MapLoader from '../components/MapLoader'
+import HomeMap from "../components/HomeMap"
 
 const Home = () => {
     return(
         <section id="home" data-page="home">
-            <MapLoader />
+            <HomeMap />
         </section>
     )
 }
