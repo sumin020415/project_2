@@ -1,19 +1,32 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import style from './login.module.css'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import style from './login.module.css';
+import axios from 'axios';
 
 const Login = () => {
-  const [userid, setUserid] = useState('')
-  const [password, setPassword] = useState('')
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [activeTab, setActiveTab] = useState('id')
+  const [userid, setUserid] = useState('');
+  const [password, setPassword] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('id');
 
-  const navigate = useNavigate()
-  
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('로그인 시도:', { userid, password })
-  }
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    //   console.log('로그인 시도:', { userid, password });
+    try {
+      const res = await axios.post('/api/login', {
+        userId: userid,
+        userPw: password,
+      });
+
+      alert(res.data.message);
+      navigate('/');
+    } catch (error) {
+      console.error('로그인 실패', error);
+      alert('로그인 실패! 아이디 또는 비밀번호를 확인해주세요.');
+    }
+  };
 
   return (
     <section className={style.loginContainer}>
@@ -45,8 +58,8 @@ const Login = () => {
           <button
             className={style.subActionButton}
             onClick={() => {
-              setIsModalOpen(true)
-              setActiveTab('id')
+              setIsModalOpen(true);
+              setActiveTab('id');
             }}
           >
             아이디/비밀번호 찾기
@@ -55,7 +68,7 @@ const Login = () => {
         <li>
           <button
             className={style.subActionButton}
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/signup')} // 🔥 이 부분 변경됨
           >
             회원가입
           </button>
@@ -111,9 +124,9 @@ const Login = () => {
               <button
                 onClick={() => {
                   if (activeTab === 'id') {
-                    alert('아이디 찾기')
+                    alert('아이디 찾기');
                   } else {
-                    alert('비밀번호 찾기')
+                    alert('비밀번호 찾기');
                   }
                 }}
                 className={style.modalButton}
@@ -131,7 +144,7 @@ const Login = () => {
         </div>
       )}
     </section>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

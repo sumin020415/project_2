@@ -64,12 +64,12 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:8080/api/register', formData);
-            alert('✅ 회원가입 완료!');
+            const res = await axios.post('/api/register', formData);
+            alert(res.data);
             navigate('/login');
         } catch (error) {
             console.error('회원가입 실패', error);
-            alert('❌ 회원가입 실패!');
+            alert('회원가입 실패!');
         }
     };
 

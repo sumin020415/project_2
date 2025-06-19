@@ -1,4 +1,4 @@
-package com.project.safe.controller;
+package com.project.safe.Controller;
 
 import com.project.safe.domain.Lamp;
 import com.project.safe.repository.LampRepository;

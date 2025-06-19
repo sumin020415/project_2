@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-package com.project.safe.controller;
-=======
 // package com.project.safe.Controller;
->>>>>>> f3bde4a4138327d27ff557eab8ec930c4c8fbd52
 
 // import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.jdbc.core.JdbcTemplate;
