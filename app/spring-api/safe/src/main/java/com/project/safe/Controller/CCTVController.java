@@ -1,8 +1,8 @@
-package com.project.safe.Controller;
+package com.project.safe.controller;
 
 import com.project.safe.domain.CCTV;
 import com.project.safe.repository.CCTVRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,10 +11,13 @@ import java.util.List;
 @RequestMapping("/api")
 public class CCTVController {
 
-    @Autowired
-    private CCTVRepository cctvRepository;
+    private final CCTVRepository cctvRepository;
 
-    @GetMapping("/cctv")
+    public CCTVController(CCTVRepository cctvRepository) {
+        this.cctvRepository = cctvRepository;
+    }
+
+    @GetMapping("/cctvs")
     public List<CCTV> getAllCctvs() {
         return cctvRepository.findAll();
     }
