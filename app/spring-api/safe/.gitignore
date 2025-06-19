@@ -34,3 +34,13 @@ build/
 
 src/main/resources/application.properties
 application.yml
+
+.env
+
+*.log            
+*.hprof  
+
+*.pid                
+docker-compose.override.yml
+Thumbs.db    
+
