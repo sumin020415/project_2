@@ -4,6 +4,7 @@ import Posts from './pages/Posts'
 import Write from './pages/Write'
 import Login from './pages/Login'
 import Signup from './pages/signup'
+import Analysis from "./pages/Analysis";
 
 import { NavLink, Routes, Route } from 'react-router-dom'
 
@@ -16,6 +17,7 @@ function App() {
           <ul>
             <li><NavLink to='/' className={({ isActive }) => isActive ? 'nav_active' : ''}>홈</NavLink></li>
             <li><NavLink to='/post' className={({ isActive }) => isActive ? 'nav_active' : ''}>제보</NavLink></li>
+            <li><NavLink to='/analysis' className={({ isActive }) => isActive ? 'nav_active' : ''}>분석</NavLink></li>
             <li><NavLink to='/login' className={({ isActive }) => isActive ? 'nav_active' : ''}>로그인</NavLink></li>
           </ul>
         </nav>
@@ -26,6 +28,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/write' element={<Write />} />
+        <Route path='/analysis' element={<Analysis />} />
       </Routes>
     </>
   )

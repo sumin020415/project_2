@@ -1,4 +1,4 @@
-package com.project.safe.Controller;
+package com.project.safe.controller;
 
 import com.project.safe.domain.CCTV;
 import com.project.safe.repository.CCTVRepository;
