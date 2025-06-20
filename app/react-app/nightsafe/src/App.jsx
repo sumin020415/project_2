@@ -1,3 +1,4 @@
+// 서영 0620 수정했슴
 import './App.css'
 import Home from './pages/Home'
 import Posts from './pages/Posts'

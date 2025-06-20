@@ -1,3 +1,4 @@
+// 서영 0619
 import React, { useState } from "react";
 import population_by_district from "../data/population_by_district.json";
 import densityData from "../data/population_density_by_district.json";

@@ -1,3 +1,5 @@
+// 서영 0620
+
 package com.project.safe.controller;
 
 import com.project.safe.domain.Member;
@@ -55,7 +57,12 @@ public class MemberController {
         }
 
         String welcomeMessage = member.getNickname() + "님, 환영합니다!";
-        return ResponseEntity.ok(Map.of("message", welcomeMessage));
+        return ResponseEntity.ok(
+                Map.of(
+                        "message", welcomeMessage,
+                        "userId", member.getUserId(), // 프론트에서 저장할 유저 식별값
+                        "nickname", member.getNickname() // 프론트에서 보여줄 닉네임
+                ));
     }
 
     @GetMapping("/check-id")

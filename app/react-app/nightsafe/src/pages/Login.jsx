@@ -1,3 +1,4 @@
+// 서영 0620 수정했는지 기억안남
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './login.module.css';
@@ -19,6 +20,11 @@ const Login = () => {
         userId: userid,
         userPw: password,
       });
+
+      const { message, userId, nickname } = res.data;
+
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("nickname", nickname);
 
       alert(res.data.message);
       navigate('/');
@@ -68,7 +74,7 @@ const Login = () => {
         <li>
           <button
             className={style.subActionButton}
-            onClick={() => navigate('/signup')} 
+            onClick={() => navigate('/signup')}
           >
             회원가입
           </button>
