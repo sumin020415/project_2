@@ -4,7 +4,7 @@
   margin-top: var(--margin40);
 }
 
-.btn_search{
+.btn_search {
   width: 100%;
   padding: var(--padding20) var(--padding40);
   border: 1px solid var(--gray1);
@@ -14,7 +14,7 @@
   text-align: left;
 }
 
-.ta_write{
+.ta_write {
   width: 100%;
   height: 400px;
   overflow-y: auto;
@@ -29,11 +29,11 @@
   padding: var(--padding20) var(--padding40);
 }
 
-.ta_write::placeholder{
+.ta_write::placeholder {
   color: var(--gray1);
 }
 
-.btn_submit{
+.btn_submit {
   width: 100%;
   padding: var(--padding20) var(--padding40);
   border-radius: var(--border_radius);
@@ -41,30 +41,30 @@
   margin-top: var(--margin40);
 }
 
-.popup_map{
+.popup_map {
   width: 100%;
   height: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.map_wrap{
+.map_wrap {
   width: 800px;
   height: 800px;
   position: relative;
 }
 
-.map{
+.map {
   width: 100%;
   height: 100%;
 }
 
-.btn_mapclose{
+.btn_mapclose {
   position: absolute;
   z-index: 9999;
   right: 20px;
@@ -72,11 +72,11 @@
   background: none;
 }
 
-.btn_mapclose svg{
+.btn_mapclose svg {
   fill: var(--black1);
 }
 
-.btn_select{
+.btn_select {
   position: absolute;
   bottom: 40px;
   left: 50%;
@@ -86,16 +86,4 @@
   z-index: 9999;
   padding: var(--padding12_24);
   box-shadow: var(--shadow);
-}
-
-.center{
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 999;
-  border-radius: 50px;
-  border: 2px solid var(--red);
 }

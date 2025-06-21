@@ -10,6 +10,7 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
   const [lampData, setLampData] = useState([])
   const [CCTVData, setCCTVData] = useState([])
   const [reportData, setReportData] = useState([])
+  const [location, setLocation] = useState({ lat: null, lng: null })
 
   // LampData api
   const fetchLampData = async () => {
@@ -65,18 +66,43 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
     )
   }
 
+  // 현재 위치를 기준으로 카카오맵 위치 설정
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      alert("이 브라우저는 위치 정보가 지원되지 않습니다.")
+      return
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude
+        const lng = position.coords.longitude
+        setLocation({ lat, lng })
+
+        const { kakao } = window
+        if (kakao && kakao.maps && mapRef.current) {
+          const moveLatLng = new kakao.maps.LatLng(lat, lng)
+          mapRef.current.setCenter(moveLatLng)
+        }
+      },
+      (err) => {
+        alert("위치 정보를 가져오지 못했습니다" + err)
+      }
+    )
+  }, [])
+
   // 지도 최초 1회 생성
   useEffect(() => {
     const { kakao } = window;
     if (!kakao || !kakao.maps) return
+    if (!location.lat || !location.lng) return
     // 카카오 맵 생성
     kakao.maps.load(() => {
+      const center = new kakao.maps.LatLng(location.lat, location.lng)
       if (!mapRef.current) {
-        const options = {
-          center: new kakao.maps.LatLng(35.133990687598214, 129.1055866490509),
-          level: 3,
-        }
-        mapRef.current = new kakao.maps.Map(mapContainer.current, options)
+        mapRef.current = new kakao.maps.Map(mapContainer.current, {
+          center,
+          level: 3
+        })
 
         // 마커 외 클릭 시 오버레이 닫기
         kakao.maps.event.addListener(mapRef.current, 'click', () => {
@@ -85,9 +111,11 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
             overlayRef.current = null
           }
         })
+      } else {
+        mapRef.current.setCenter(center)
       }
     })
-  }, [])
+  }, [location])
 
   // 뷰포트 설정
   const isInBounds = (map, lat, lng) => {
@@ -162,7 +190,7 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
       })
     }
     updateMarkers() // 최초 실행
-    
+
     // 지도 이동,줌 변경 될 때마다 마커 갱신
     kakao.maps.event.addListener(map, 'idle', updateMarkers)
     return () => {
@@ -175,31 +203,45 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
     }
   }, [lampData, CCTVData, reportData, selectedType])
 
-  // 지도 중앙 좌표값 추출
+  // 클릭 주소 좌표 추출
   useEffect(() => {
     const { kakao } = window
     const map = mapRef.current
-    if(!map || !kakao || !kakao.maps) return
+
+    if (!map || !kakao || !kakao.maps) return
 
     if (!getLatLng) return
 
-    const handleCenterChanged = () => {
-      const center = map.getCenter()
-      const lat = center.getLat()
-      const lng = center.getLng()
+    let clickMarker = null
 
+    const handleMapClick = (mouseEvent) => {
+      const latlng = mouseEvent.latLng
+
+      // 마커가 없으면 새로 생성
+      if (!clickMarker) {
+        clickMarker = new kakao.maps.Marker({
+          position: latlng,
+          map: map
+        })
+      } else {
+        clickMarker.setPosition(latlng)
+      }
+
+      // 위도 경도 전달
       if (onCenterChange) {
-        onCenterChange({ lat, lng })
+        onCenterChange({
+          lat: latlng.getLat(),
+          lng: latlng.getLng()
+        })
       }
     }
 
-    handleCenterChanged()
+    kakao.maps.event.addListener(map, 'click', handleMapClick)
 
-    kakao.maps.event.addListener(map, 'idle', handleCenterChanged)
     return () => {
-      kakao.maps.event.removeListener(map, 'idle', handleCenterChanged)
+      kakao.maps.event.removeListener(map, 'click', handleMapClick)
     }
-  }, [getLatLng, onCenterChange])
+  }, [getLatLng, onCenterChange, location])
 
   return (
     <div ref={mapContainer} className={className}></div>

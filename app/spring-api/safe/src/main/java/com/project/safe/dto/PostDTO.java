@@ -1,20 +1,19 @@
-// 서영 0620
 package com.project.safe.dto;
 
 public class PostDTO {
-    private String userKey;
+    // private String userKey;
     private String content;
     private Double latitude;
     private Double longitude;
     private String imageUrl;
 
-    public String getUserKey() {
-        return userKey;
-    }
+    // public String getUserKey() {
+    // return userKey;
+    // }
 
-    public void setUserKey(String userKey) {
-        this.userKey = userKey;
-    }
+    // public void setUserKey(String userKey) {
+    // this.userKey = userKey;
+    // }
 
     public String getContent() {
         return content;

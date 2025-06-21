@@ -1,8 +1,9 @@
-// 서영 0620 수정했는지 기억안남
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './login.module.css';
 import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext'; // 전역 로그인 상태 반영
+
 
 const Login = () => {
   const [userid, setUserid] = useState('');
@@ -11,25 +12,46 @@ const Login = () => {
   const [activeTab, setActiveTab] = useState('id');
 
   const navigate = useNavigate();
+  const { login } = useAuth();
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      localStorage.removeItem('accessToken');
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleUnload = () => {
+      localStorage.removeItem('accessToken');
+    };
+
+    window.addEventListener('beforeunload', handleUnload);
+    return () => window.removeEventListener('beforeunload', handleUnload);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //   console.log('로그인 시도:', { userid, password });
+
+    // 백엔드에 요청
     try {
       const res = await axios.post('/api/login', {
         userId: userid,
         userPw: password,
       });
 
-      const { message, userId, nickname } = res.data;
+      // 응답 받은 거 꺼냄
+      const { token, userKey, nickname } = res.data;
 
-      localStorage.setItem("userId", userId);
-      localStorage.setItem("nickname", nickname);
-
-      alert(res.data.message);
-      navigate('/');
+      // 전역 상태에 반영
+      if (token && userKey) {
+        login({ token, userKey, nickname });
+        alert(`${nickname}님 환영합니다!`);
+        navigate('/');
+      } else {
+        alert('로그인 실패: 토큰이 없습니다.');
+      }
     } catch (error) {
-      console.error('로그인 실패', error);
       alert('로그인 실패! 아이디 또는 비밀번호를 확인해주세요.');
     }
   };
@@ -86,15 +108,13 @@ const Login = () => {
           <div className={style.modalContent}>
             <div className={style.modalTabs}>
               <button
-                className={`${style.tabButton} ${activeTab === 'id' ? '' : style.activeTab
-                  }`}
+                className={`${style.tabButton} ${activeTab === 'id' ? '' : style.activeTab}`}
                 onClick={() => setActiveTab('id')}
               >
                 아이디 찾기
               </button>
               <button
-                className={`${style.tabButton} ${activeTab === 'password' ? '' : style.activeTab
-                  }`}
+                className={`${style.tabButton} ${activeTab === 'password' ? '' : style.activeTab}`}
                 onClick={() => setActiveTab('password')}
               >
                 비밀번호 찾기
@@ -154,3 +174,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
+

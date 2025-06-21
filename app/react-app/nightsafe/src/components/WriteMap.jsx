@@ -18,14 +18,13 @@ const WriteMap = ({onClose, onSelectLocation}) => {
     } else {
       alert("지도 중심 좌표를 가져올 수 없습니다.")
     }
-
   }
+  
   return (
     <div className={mapStyle.popup_map}>
       <div className={mapStyle.map_wrap}>
         <button className={mapStyle.btn_mapclose} onClick={onClose}><svg width="20" height="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><defs></defs><g id="cancel"><path className="cls-1" d="M28 29a1 1 0 0 1-.71-.29l-24-24a1 1 0 0 1 1.42-1.42l24 24a1 1 0 0 1 0 1.42A1 1 0 0 1 28 29" /><path className="cls-1" d="M4 29a1 1 0 0 1-.71-.29 1 1 0 0 1 0-1.42l24-24a1 1 0 1 1 1.42 1.42l-24 24A1 1 0 0 1 4 29" /></g></svg></button>
         <button className={mapStyle.btn_select} onClick={handleSelectClick}>장소 선택</button>
-        <div className={mapStyle.center}></div>
         <KakaoMap className={mapStyle.map} showMarkers={false} getLatLng={true} onCenterChange={handleCenterChanged}></KakaoMap>
       </div>
     </div>

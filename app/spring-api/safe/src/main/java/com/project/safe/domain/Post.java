@@ -1,4 +1,3 @@
-// 서영 0620
 package com.project.safe.domain;
 
 import jakarta.persistence.*;

@@ -14,8 +14,8 @@ function Signup() {
     });
 
     const [emailValid, setEmailValid] = useState(false);
-    const [idDuplicate, setIdDuplicate] = useState(null);        
-    const [emailDuplicate, setEmailDuplicate] = useState(null);  
+    const [idDuplicate, setIdDuplicate] = useState(null);
+    const [emailDuplicate, setEmailDuplicate] = useState(null);
 
     useEffect(() => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
