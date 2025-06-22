@@ -2,29 +2,44 @@ import { useState } from "react"
 import KakaoMap from "../hooks/MapLoader"
 import mapStyle from "../pages/home.module.css"
 import { Link } from 'react-router-dom'
+//추가
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const HomeMap = () => {
   const [selectedType, setSelectedType] = useState('보안등')
   const WriteBtn = () => {
+    const { isLoggedIn } = useAuth();
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+      if (!isLoggedIn) {
+        alert("로그인이 필요합니다.");
+        navigate("/login");
+      } else {
+        navigate("/write");
+      }
+    };
+
     return (
-      <Link to ="/write">
-        <button className={mapStyle.btn_write}>제보글 쓰기</button>
-      </Link>
-    )
-  }
+      <button className={mapStyle.btn_write} onClick={handleClick}>
+        제보글 쓰기
+      </button>
+    );
+  };
   return (
     <div className={mapStyle.map_wrap}>
       <div className={mapStyle.tab_wrap}>
-        {['보안등', 'CCTV', '제보'].map((type) =>{
+        {['보안등', 'CCTV', '제보'].map((type) => {
           const isActive = selectedType === type
 
-          return(
-          <button
-           key={type}
-           className={`${mapStyle.btn_tab} ${isActive ? mapStyle.tab_active : ''}`}
-           onClick={() => setSelectedType(type)}>
-            <img className={mapStyle.tab_icon} src={`./src/assets/icon/${type === '보안등' ? 'lamp' : type === 'CCTV' ? 'cctv' : 'report'}.png`} alt={type} />{type}
-          </button>)
+          return (
+            <button
+              key={type}
+              className={`${mapStyle.btn_tab} ${isActive ? mapStyle.tab_active : ''}`}
+              onClick={() => setSelectedType(type)}>
+              <img className={mapStyle.tab_icon} src={`./src/assets/icon/${type === '보안등' ? 'lamp' : type === 'CCTV' ? 'cctv' : 'report'}.png`} alt={type} />{type}
+            </button>)
         })}
       </div>
       <WriteBtn />

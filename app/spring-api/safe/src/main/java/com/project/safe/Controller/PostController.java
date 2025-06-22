@@ -2,6 +2,7 @@ package com.project.safe.controller;
 
 import com.project.safe.config.JwtUtil;
 import com.project.safe.domain.Member;
+import com.project.safe.domain.Post;
 import com.project.safe.dto.PostDTO;
 import com.project.safe.repository.MemberRepository;
 import com.project.safe.service.PostService;
@@ -51,5 +52,30 @@ public class PostController {
     public ResponseEntity<List<PostDTO>> getAllPosts() {
         List<PostDTO> posts = postService.getAllPosts();
         return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/user/{userKey}")
+    public ResponseEntity<List<PostDTO>> getPostsByUser(@PathVariable String userKey) {
+        List<PostDTO> posts = postService.getPostsByUser(userKey);
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<PostDTO>> getMyPosts(@RequestHeader("Authorization") String authHeader) {
+        String userId = jwtUtil.getUserIdFromToken(authHeader);
+        Member member = memberRepository.findByUserId(userId);
+
+        if (member == null) {
+            return ResponseEntity.status(401).build();
+        }
+
+        List<PostDTO> myPosts = postService.getPostsByUser(member.getUserKey());
+        return ResponseEntity.ok(myPosts);
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostDTO> getPostById(@PathVariable String postId) {
+        PostDTO postDTO = postService.getPostById(postId);
+        return ResponseEntity.ok(postDTO);
     }
 }

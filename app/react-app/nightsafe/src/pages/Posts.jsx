@@ -1,41 +1,39 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext"; // 로그인 context
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Posts = () => {
+    const navigate = useNavigate();
+    const { isLoggedIn } = useAuth();
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const res = await axios.get('/api/posts');
-                setPosts(res.data);
-            } catch (err) {
-                console.error('게시글 목록 불러오기 실패:', err);
-                alert('게시글을 불러오는 데 실패했습니다.');
-            }
-        };
-
-        fetchPosts();
+        axios.get("/api/posts")
+            .then(res => setPosts(res.data))
+            .catch(err => console.error("게시글 불러오기 실패:", err));
     }, []);
 
+    const handleClick = (postId) => {
+        if (!isLoggedIn) {
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+        } else {
+            navigate(`/posts/${postId}`);
+        }
+    };
+
     return (
-        <section>
+        <div>
             <h2>제보 목록</h2>
-            {posts.length === 0 ? (
-                <p>게시글이 없습니다.</p>
-            ) : (
-                <ul>
-                    {posts.map((post, index) => (
-                        <li key={index} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
-                            <p><strong>내용:</strong> {post.content}</p>
-                            <p><strong>위도:</strong> {post.latitude}</p>
-                            <p><strong>경도:</strong> {post.longitude}</p>
-                            {post.imageUrl && <img src={post.imageUrl} alt="제보 이미지" style={{ maxWidth: '100%' }} />}
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </section>
+            {posts.map((post) => (
+                <div key={post.postId} onClick={() => handleClick(post.postId)} style={{ cursor: 'pointer', borderBottom: '1px solid #ccc', padding: '10px 0' }}>
+                    <p><strong>내용:</strong> {post.content}</p>
+                    <p><strong>작성 시간:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+                    <p><strong>댓글 수:</strong> {post.commentCount}</p>
+                </div>
+            ))}
+        </div>
     );
 };
 

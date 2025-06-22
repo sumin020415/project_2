@@ -2,6 +2,8 @@ package com.project.safe.domain;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
 import java.util.UUID;
 
 @Entity
@@ -40,7 +42,7 @@ public class Post {
     @PrePersist
     public void prePersist() {
         this.postId = UUID.randomUUID().toString().replace("-", "").toUpperCase();
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
     }
 
     @PreUpdate

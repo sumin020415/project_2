@@ -1,6 +1,10 @@
 package com.project.safe.domain;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Entity
@@ -23,8 +27,9 @@ public class Member {
     @Column(name = "USER_EMAIL")
     private String userEmail;
 
-    @Column(name = "CREATED_AT", insertable = false, updatable = false)
-    private Date createdAt;
+    // @Column(name = "CREATED_AT", insertable = false, updatable = false)
+    // @Temporal(TemporalType.TIMESTAMP)
+    // private Date createdAt;
 
     @Column(name = "STATUS", insertable = false)
     private Integer status;
@@ -34,6 +39,20 @@ public class Member {
 
     public Member() {
     }
+
+    @Column(name = "CREATED_AT", updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+    }
+
+    // @PrePersist
+    // public void prePersist() {
+    // this.createdAt =
+    // Date.from(ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toInstant());
+    // }
 
     public String getUserKey() {
         return userKey;
@@ -75,7 +94,11 @@ public class Member {
         this.userEmail = userEmail;
     }
 
-    public Date getCreatedAt() {
+    // public Date getCreatedAt() {
+    // return createdAt;
+    // }
+
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 

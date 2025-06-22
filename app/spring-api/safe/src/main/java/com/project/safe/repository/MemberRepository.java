@@ -6,6 +6,8 @@ import com.project.safe.domain.Member;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Member findByUserId(String userId);
 
+    Member findByUserKey(String userKey);
+
     boolean existsByUserId(String userId);
 
     boolean existsByUserEmail(String userEmail);
