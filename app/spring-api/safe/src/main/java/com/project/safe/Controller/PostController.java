@@ -1,16 +1,24 @@
 package com.project.safe.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.project.safe.config.JwtUtil;
 import com.project.safe.domain.Member;
 import com.project.safe.dto.PostDTO;
 import com.project.safe.repository.MemberRepository;
 import com.project.safe.service.PostService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -41,6 +49,12 @@ public class PostController {
         Map<String, String> response = new HashMap<>();
         response.put("message", "게시글이 등록되었습니다.");
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/public")
+    public ResponseEntity<List<PostDTO>> getPublicPosts() {
+        List<PostDTO> posts = postService.getAllPosts(null); // userKey 없이 조회
+        return ResponseEntity.ok(posts);
     }
 
     @GetMapping

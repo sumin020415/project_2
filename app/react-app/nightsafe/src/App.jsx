@@ -9,6 +9,7 @@ import Mypage from "./pages/Mypage";
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './contexts/AuthContext';
 import Postdetail from './pages/Postdetail';
+import PrivateRoute from './components/PrivateRoute';
 
 import { NavLink, Routes, Route, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -52,7 +53,14 @@ function AppContent() {
         <Route path='/write' element={<Write />} />
         <Route path='/analysis' element={<Analysis />} />
         <Route path='/mypage' element={<Mypage />} />
-        <Route path="/posts/:postId" element={<Postdetail />} />
+        <Route
+          path="/posts/:postId"
+          element={
+            <PrivateRoute>
+              <Postdetail />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </>
   );

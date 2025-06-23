@@ -10,18 +10,8 @@ const Posts = () => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken"); // 수정된 부분
-
-        if (!token) {
-            console.warn("토큰이 없습니다. 로그인한 사용자만 게시글을 볼 수 있습니다.");
-            return;
-        }
-
-        axios.get("/api/posts", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
+        // 로그인 여부 상관없이 public API 사용
+        axios.get("/api/posts/public")
             .then(res => setPosts(res.data))
             .catch(err => console.error("게시글 불러오기 실패:", err));
     }, []);

@@ -34,21 +34,22 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
     }
   }
 
-  // const fetchReportData = async () => {
-  //   try {
-  //     const res = await axios.get('/api/lamps')
-  //     setLampData([...res.data])
-  //   }
-  //   catch (err) {
-  //     console.log(err)
-  //   }
-  // }
+  const fetchReportData = async () => {
+    try {
+      const res = await axios.get('/api/posts/public')
+      setReportData([...res.data])
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
 
   // 탭 선택하면 데이터 불러오기
   useEffect(() => {
     if (!showMarkers) return
     if (selectedType === '보안등') fetchLampData()
     if (selectedType === 'CCTV') fetchCCTVData()
+    if (selectedType === '제보') fetchReportData()
   }, [selectedType, showMarkers])
 
 
