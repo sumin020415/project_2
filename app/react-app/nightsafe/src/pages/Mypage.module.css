@@ -1,0 +1,102 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.header {
+    margin-top: 40px;
+    margin-bottom: 24px;
+}
+
+.nickname {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333d4b;
+}
+
+.tabWrapper {
+    width: 100%;
+    max-width: 1000px;
+    height: 70px;
+    margin: 0 auto 40px;
+    background: #F8FAFB;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.tabItem {
+    width: 476px;
+    height: 46px;
+    border-radius: 12px;
+    background: #F8FAFB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: #6b7684;
+    cursor: pointer;
+}
+
+.tabActive {
+    background: #ffffff;
+    color: #333d4b;
+}
+
+.count {
+    margin-left: 8px;
+    font-weight: 700;
+    color: #FFD66B;
+}
+
+.section {
+    margin-bottom: 32px;
+}
+
+.card {
+    padding: 16px;
+    background: #FFFFFF;
+    border: 1px solid #E5E8EB;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.cardNickname {
+    font-size: 16px;
+    color: #333d4b;
+}
+
+.cardTime {
+    font-size: 14px;
+    color: #6b7684;
+}
+
+.cardContent {
+    font-size: 16px;
+    color: #333d4b;
+    margin-top: 12px;
+}
+
+.loadMoreBtn {
+    display: block;
+    background: none;
+    border: none;
+    color: #6b7684;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 0 auto;
+}

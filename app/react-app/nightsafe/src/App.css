@@ -18,6 +18,7 @@
   --shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
   /* flex gap */
   --gap8: 8px;
+  --gap20: 20px;
   --gap40: 40px;
   /* 폰트사이즈 */
   --fontsize12: 12px;

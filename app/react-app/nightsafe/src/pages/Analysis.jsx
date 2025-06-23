@@ -5,7 +5,7 @@ import guName from "../data/gu_name.json"
 import styles from "./analysis.module.css"
 
 const Analysis = () => {
-    const [clickGu, setClickGu] = useState("all")
+    const [clickGu, setClickGu] = useState("Busan")
     const [activeTab, setActiveTab] = useState("tab1")
     const [centers, setCenters] = useState([]) // 각 구 중심 좌표 배열
     const [activeGuId, setActiveGuId] = useState(null)
@@ -20,18 +20,35 @@ const Analysis = () => {
     }
 
     const selectedGu =
-        clickGu !== "all"
+        clickGu !== "Busan"
             ? guName.find((item) => item.district === clickGu)
             : null
 
     const population =
-        clickGu !== "all"
+        clickGu !== "Busan"
             ? population_by_district.find((item) => item.district === clickGu)
-            : null
+            : {
+                district: "Busan",
+                    total_population: population_by_district.reduce(
+                        (sum, item) => sum + item.total_population,
+                        0
+                    ),
+                }
 
     const handleTabClick = (tabId) => {
         setActiveTab(tabId)
     }
+
+    useEffect(() => {
+        const handleOutsideClick = (e) => {
+            if (svgContainerRef.current && !svgContainerRef.current.contains(e.target)) {
+                setClickGu("Busan")
+                setActiveGuId(null)
+                }
+            }
+                document.addEventListener("click", handleOutsideClick)
+                return () => document.removeEventListener("click", handleOutsideClick)
+    }, [])
 
     useEffect(() => {
     if (!svgContainerRef.current) return
@@ -41,7 +58,7 @@ const Analysis = () => {
         if (path.id === activeGuId) {
             path.style.fill = "#FFD75E"
         } else {
-            path.style.fill = "#C8C8C8"
+            path.style.fill = "#E5E8EB"
         }
         })
     }, [activeGuId])
@@ -117,7 +134,7 @@ const Analysis = () => {
                 >
                     {clickGu && (
                     <div className={styles.infoBox}>
-                        <h3>{selectedGu ? selectedGu.rename : clickGu}</h3>
+                        <h3>{clickGu === "Busan" ? "부산광역시" : selectedGu ? selectedGu.rename : clickGu}</h3>
                         <p>
                             <strong>인구:</strong>{" "}
                             {population

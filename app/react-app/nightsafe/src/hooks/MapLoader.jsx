@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import lampIcon from '../assets/icon/lamp.png'
+import cctvIcon from '../assets/icon/cctv.png'
+import reportIcon from '../assets/icon/report.png'
 
 const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = false, onCenterChange }) => {
   const navigate = useNavigate()
@@ -59,9 +62,9 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
   // 지도 마커 커스텀
   const getMarkerImage = (type) => {
     const imageSrcMap = {
-      '보안등': './src/assets/icon/lamp.png',
-      'CCTV': './src/assets/icon/cctv.png',
-      '제보': './src/assets/icon/report.png',
+      '보안등': lampIcon,
+      'CCTV': cctvIcon,
+      '제보': reportIcon,
     }
 
     return new window.kakao.maps.MarkerImage(
