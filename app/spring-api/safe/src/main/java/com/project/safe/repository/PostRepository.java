@@ -8,4 +8,6 @@ public interface PostRepository extends JpaRepository<Post, String> {
     List<Post> findAllByOrderByCreatedAtDesc();
 
     List<Post> findByUserKey(String userKey);
+
+    List<Post> findByIsDeletedOrderByCreatedAtDesc(Integer isDeleted);
 }

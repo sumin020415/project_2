@@ -65,6 +65,7 @@ const Write = () => {
                 latitude: coords.lat,
                 longitude: coords.lng,
                 imageUrl: null,
+                address: address,
             }, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

@@ -39,6 +39,12 @@ public class Post {
     @Column(name = "IMAGE_URL")
     private String imageUrl;
 
+    @Column(name = "CATEGORY")
+    private String category;
+
+    @Column(name = "ADDRESS", nullable = false)
+    private String address;
+
     @PrePersist
     public void prePersist() {
         this.postId = UUID.randomUUID().toString().replace("-", "").toUpperCase();
@@ -120,5 +126,21 @@ public class Post {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
