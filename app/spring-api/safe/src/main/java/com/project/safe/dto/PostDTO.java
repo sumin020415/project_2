@@ -14,6 +14,7 @@ public class PostDTO {
     private int commentCount;
     private String category;
     private String address;
+    private String nickname;
 
     public String getUserKey() {
         return userKey;
@@ -121,5 +122,13 @@ public class PostDTO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

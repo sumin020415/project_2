@@ -2,10 +2,13 @@ package com.project.safe.service;
 
 import com.project.safe.domain.Post;
 import com.project.safe.domain.Reaction;
+import com.project.safe.domain.Member;
 import com.project.safe.dto.PostDTO;
 import com.project.safe.repository.CommentRepository;
 import com.project.safe.repository.PostRepository;
 import com.project.safe.repository.ReactionRepository;
+import com.project.safe.repository.MemberRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,12 +24,16 @@ public class PostService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final ReactionRepository reactionRepository;
+    private final MemberRepository memberRepository; // 닉네임 조회용
 
-    public PostService(PostRepository postRepository, CommentRepository commentRepository,
-            ReactionRepository reactionRepository) {
+    public PostService(PostRepository postRepository,
+            CommentRepository commentRepository,
+            ReactionRepository reactionRepository,
+            MemberRepository memberRepository) {
         this.postRepository = postRepository;
         this.commentRepository = commentRepository;
         this.reactionRepository = reactionRepository;
+        this.memberRepository = memberRepository;
     }
 
     public void createPost(PostDTO dto, String userKey) {
@@ -73,6 +80,14 @@ public class PostService {
         dto.setAddress(post.getAddress());
         dto.setUserKey(post.getUserKey());
 
+        // 닉네임 직접 조회 (Optional 없이)
+        Member member = memberRepository.findByUserKey(post.getUserKey());
+        if (member != null) {
+            dto.setNickname(member.getNickname());
+        } else {
+            dto.setNickname("알 수 없음");
+        }
+
         dto.setCommentCount(commentRepository.findByPostIdOrderByCreatedAtAsc(post.getPostId()).size());
         dto.setLikeCount(reactionRepository.countByPostIdAndReactionType(post.getPostId(), 1).intValue());
         dto.setDislikeCount(reactionRepository.countByPostIdAndReactionType(post.getPostId(), -1).intValue());
@@ -85,22 +100,15 @@ public class PostService {
     }
 
     public void deletePost(String postId, String userKey) {
-        System.out.println("삭제 시도: postId=" + postId + ", userKey=" + userKey);
-
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다."));
 
-        System.out.println("게시글 있음. 작성자 확인 중: " + post.getUserKey());
-
         if (!post.getUserKey().equals(userKey)) {
-            System.out.println("작성자 불일치");
             throw new RuntimeException("게시글 삭제 권한이 없습니다.");
         }
 
-        System.out.println("작성자 일치, 삭제 진행");
         reactionRepository.deleteByPostId(postId);
         commentRepository.deleteByPostId(postId);
         postRepository.deleteById(postId);
     }
-
 }

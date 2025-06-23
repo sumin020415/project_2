@@ -1,4 +1,4 @@
-package com.project.safe.controller;
+package com.project.safe.Controller;
 
 import java.util.HashMap;
 import java.util.List;

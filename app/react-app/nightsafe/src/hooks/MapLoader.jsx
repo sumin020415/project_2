@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = false, onCenterChange }) => {
+  const navigate = useNavigate()
+
   const mapContainer = useRef(null) // 카카오맵 정보 저장
   const overlayRef = useRef(null) // 오버레이 정보 저장
   const mapRef = useRef(null) // 현 지도 뷰포트 정보 저장
@@ -96,6 +99,7 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
     const { kakao } = window;
     if (!kakao || !kakao.maps) return
     if (!location.lat || !location.lng) return
+
     // 카카오 맵 생성
     kakao.maps.load(() => {
       const center = new kakao.maps.LatLng(location.lat, location.lng)
@@ -103,14 +107,6 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
         mapRef.current = new kakao.maps.Map(mapContainer.current, {
           center,
           level: 3
-        })
-
-        // 마커 외 클릭 시 오버레이 닫기
-        kakao.maps.event.addListener(mapRef.current, 'click', () => {
-          if (overlayRef.current) {
-            overlayRef.current.setMap(null)
-            overlayRef.current = null
-          }
         })
       } else {
         mapRef.current.setCenter(center)
@@ -159,34 +155,78 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
           image: getMarkerImage(selectedType)
         })
 
+        console.log(point)
+
         // 마커 오버레이 생성
-        const content = `<div class="marker_info">${point.address.length === 0 ? '해당 정보가 없습니다.' : point.address}</div>`
+        const container = document.createElement('div')
+        container.className = 'marker_info overlay'
+
+        const p = document.createElement('p')
+        p.className = 'marker_content'
+
+        if (selectedType === '제보') {
+          const nickname = document.createElement('p')
+          nickname.className = 'marker_nickname'
+          nickname.textContent = point.nickname
+
+          p.textContent = point.content
+
+          const btn = document.createElement('button')
+          btn.className = 'btn_navigate'
+          btn.textContent = '게시글 보기'
+          btn.dataset.id = point.postId
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation()
+            navigate(`/posts/${btn.dataset.id}`)
+          })
+          
+          container.appendChild(nickname)
+          container.appendChild(p)
+          container.appendChild(btn)
+        } else { 
+          p.textContent = point.address ?? '해당 정보가 없습니다.'
+          container.appendChild(p)
+        }
 
         // 해당 마커에 해당하는 오버레이 설정
         const overlay = new kakao.maps.CustomOverlay({
-          content,
+          content: container,
           position,
-          yAnchor: 1.9
+          yAnchor: 1.5
         })
 
         // 클릭 이벤트로 오버레이 토글
         kakao.maps.event.addListener(marker, 'click', () => {
-          const currentOverlay = overlayRef.current
-
-          // 같은 위치를 다시 클릭하면 닫기
-          if (
-            currentOverlay &&
-            currentOverlay.getPosition().getLat() === position.getLat() &&
-            currentOverlay.getPosition().getLng() === position.getLng()
-          ) {
-            currentOverlay.setMap(null)
+          // 기존 오버레이 제거
+          if (overlayRef.current) {
+            overlayRef.current.setMap(null)
+            if (overlayRef.current._closeHandler) {
+              document.removeEventListener('click', overlayRef.current._closeHandler)
+            }
             overlayRef.current = null
-          } else {
-            if (currentOverlay) currentOverlay.setMap(null)
-            overlay.setMap(map)
-            overlayRef.current = overlay
           }
-        })
+
+          // 새로운 오버레이 설정
+          overlay.setMap(map)
+          overlayRef.current = overlay
+
+          // 외부 클릭 시 닫기
+          const handleDocumentClick = (e) => {
+            const isInside = e.target.closest('.overlay')
+            if (!isInside) {
+              overlay.setMap(null)
+              document.removeEventListener('click', handleDocumentClick)
+              overlayRef.current = null
+            }
+          }
+
+          // 핸들러 저장해서 나중에 제거할 수 있도록
+          overlay._closeHandler = handleDocumentClick
+          setTimeout(() => {
+            document.addEventListener('click', handleDocumentClick)
+          }, 0)
+        }
+        )
         markersRef.current.push(marker) // 마커 저장
       })
     }

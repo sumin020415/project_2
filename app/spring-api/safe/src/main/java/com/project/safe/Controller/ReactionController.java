@@ -1,4 +1,4 @@
-package com.project.safe.controller;
+package com.project.safe.Controller;
 
 import com.project.safe.dto.ReactionDTO;
 import com.project.safe.service.ReactionService;

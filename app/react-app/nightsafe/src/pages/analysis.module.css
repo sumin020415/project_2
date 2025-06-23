@@ -1,90 +1,56 @@
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 16px;
-    background-color: #ffffff;
-}
+/* 수정 후 */
 
-.title {
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 8px;
+.analysisWrapper{
+    width: 1300px;
+    margin: 40px auto;
     text-align: center;
 }
 
-.container {
-    max-width: 1200px;
+.analysisWrapper > h2{
+    margin-bottom: 40px;
+}
+
+.BusanMap{
+    position: relative;
+    width: 600px;
+    height: 450px;
+    float: left;
+}
+
+.map{
     width: 100%;
-}
-
-
-.description {
-    font-size: 16px;
-    color: #6B7684;
-    margin-bottom: 24px;
-    text-align: center;
-}
-
-.dashboard {
-    display: flex;
-    justify-content: center;
-    max-width: 1200px;
-    width: 100%;
-    gap: 40px;
-}
-
-
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 160px;
-}
-
-
-.tabItem {
-    background-color: #f4f4f4;
-    padding: 0.5rem 1rem;
-    border-radius: 30px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    height: 100%;
     cursor: pointer;
-    text-align: left;
-    transition: background 0.2s;
-    border: none;
-    font-size: 14px;
 }
 
-.tabItem:hover {
-    background-color: #e8e8e8;
+.dataTabs {
+  width: 600px;
+  height: 450px;
+  float: right;
 }
 
-.activeTab {
-    background-color: #FFD75E;
-    color: #333D48;
-    font-weight: bold;
-}
-
-.content {
-    flex: 1;
-    min-width: 600px;
-}
-
-.table {
+.tabButton{
     width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 24px;
-    font-size: 14px;
+    height: 35px;
+    background-color: var(--point);
+    border: solid 1px white;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.3s;
 }
 
-.table th,
-.table td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-    min-width: 120px;
+.tabinner {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.5s ease;
+  background-color: #fafafa;
+  width: 100%;
 }
 
-.highlightRow {
-    background-color: #f1f4f8;
+.tabinner.active {
+  max-height: 300px;
+  opacity: 1;
+  transform: translateY(0);
 }
