@@ -1,9 +1,11 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import axios from 'axios';
 
 const AuthContext = createContext(); // 로그인 정보 담기(Context)
 
 export const AuthProvider = ({ children }) => { // 로그인 상태 관리 및 앱 전체에 전달
+    const navigate = useNavigate()
     const [nickname, setNickname] = useState(null);
     const [userKey, setUserKey] = useState(null);
     const [token, setToken] = useState(null);
@@ -41,6 +43,7 @@ export const AuthProvider = ({ children }) => { // 로그인 상태 관리 및 �
         setToken(null);
         setNickname(null);
         setUserKey(null);
+        navigate('/')
     };
 
     // Context 제공

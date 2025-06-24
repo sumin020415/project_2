@@ -5,6 +5,7 @@ import com.project.safe.dto.UserDTO;
 import com.project.safe.repository.MemberRepository;
 import com.project.safe.service.MemberService;
 import com.project.safe.config.JwtUtil;
+import com.project.safe.dto.ResetPasswordRequest;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -80,6 +82,27 @@ public class MemberController {
                 "token", token,
                 "userKey", member.getUserKey(),
                 "nickname", member.getNickname()));
+    }
+
+    @PostMapping("/find-id")
+    public ResponseEntity<?> findIdByEmail(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        Member member = memberRepository.findByUserEmail(email);
+        if (member == null) {
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", "해당 이메일로 가입된 아이디가 없습니다."));
+        }
+        return ResponseEntity.ok(Map.of("userId", member.getUserId()));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest dto) {
+        memberService.resetPassword(dto.getUserId(), dto.getNewPassword());
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "비밀번호가 성공적으로 변경되었습니다.");
+        return ResponseEntity.ok(response);
     }
 
     // 토큰 기반 사용자 정보 확인

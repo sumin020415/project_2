@@ -36,4 +36,14 @@ public class MemberService {
 
         memberRepository.save(member);
     }
+
+    public void resetPassword(String userId, String newPassword) {
+        Member member = memberRepository.findByUserId(userId);
+        if (member == null) {
+            throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+        }
+
+        member.setUserPw(passwordEncoder.encode(newPassword)); // 재암호화
+        memberRepository.save(member);
+    }
 }

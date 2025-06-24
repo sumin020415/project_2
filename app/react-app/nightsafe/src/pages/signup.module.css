@@ -1,7 +1,6 @@
 .container {
-  width: 500px;
-  margin: 160px auto;
-  padding: 30px;
+  width: 520px;
+  margin: 120px auto;
   border-radius: 8px;
   background-color: #fff;
 }
@@ -12,43 +11,43 @@
 }
 
 .title {
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: -2px;
   color: #333D4B;
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   padding-bottom: 0;
 }
 
 .fieldRow {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  margin-bottom: 8px;
+  margin-bottom: 20px;
 }
 
 .inputGroup {
   display: flex;
-  gap: 6px;
+  gap: 20px;
 }
 
 .inputGroup input {
   flex: 1;
-  height: 44px;
-  padding: 0 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
+  height: 60px;
+  padding: 20px;
+  border: 1px solid #E5E8EB;
+  border-radius: 12px;
+  font-size: 16px;
   box-sizing: border-box;
   outline: none;
 }
 
 input {
-  height: 44px;
-  padding: 0 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
+  height: 60px;
+  padding: 20px;
+  border: 1px solid #E5E8EB;
+  border-radius: 12px;
+  font-size: 16px;
   box-sizing: border-box;
   outline: none;
 }
@@ -61,12 +60,11 @@ input:focus,
 
 .checkButton {
   width: 100px;
-  height: 44px;
+  height: 60px;
   background-color: var(--point);
   border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  border-radius: 12px;
+  font-size: 16px;
   color: var(--black1);
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -86,15 +84,14 @@ label {
 }
 
 .submitButton {
-  height: 44px;
+  height: 60px;
   background-color: var(--point);
   border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 600;
+  border-radius: 12px;
+  font-size: 16px;
   color: var(--black1);
   cursor: pointer;
-  margin-top: 12px;
+  margin-top: 20px;
   transition: background-color 0.3s ease;
 }
 

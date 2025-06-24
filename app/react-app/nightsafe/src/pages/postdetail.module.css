@@ -106,4 +106,21 @@
 
 .like_wrap{
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn_delete{
+    padding: 8px;
+    border: 1px solid #C5172E;
+    color: #C5172E;
+    background: none;
+    border-radius: 12px;
+    font-size: 12px;
+    transition: all 0.3s;
+}
+
+.btn_delete:hover{
+    background: #C5172E;
+    color: #fff;
 }

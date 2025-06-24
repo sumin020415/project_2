@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './signup.module.css';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,8 @@ function Signup() {
     const [emailValid, setEmailValid] = useState(false);
     const [idDuplicate, setIdDuplicate] = useState(null);
     const [emailDuplicate, setEmailDuplicate] = useState(null);
+    const [idChecked, setIdChecked] = useState(false);
+    const [emailChecked, setEmailChecked] = useState(false);
 
     useEffect(() => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -24,6 +26,14 @@ function Signup() {
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        if (e.target.name === 'userId') {
+            setIdDuplicate(null);
+            setIdChecked(false);
+        }
+        if (e.target.name === 'userEmail') {
+            setEmailDuplicate(null);
+            setEmailChecked(false);
+        }
     };
 
     const checkId = async () => {
@@ -31,6 +41,7 @@ function Signup() {
         try {
             const res = await axios.get(`/api/check-id?id=${formData.userId}`);
             setIdDuplicate(res.data.duplicate);
+            setIdChecked(true);
         } catch (err) {
             console.error('아이디 중복 확인 오류', err);
         }
@@ -41,6 +52,7 @@ function Signup() {
         try {
             const res = await axios.get(`/api/check-email?email=${formData.userEmail}`);
             setEmailDuplicate(res.data.duplicate);
+            setEmailChecked(true);
         } catch (err) {
             console.error('이메일 중복 확인 오류', err);
         }
@@ -48,6 +60,15 @@ function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!idChecked || idDuplicate !== false) {
+            alert('아이디 중복확인이 필요합니다.');
+            return;
+        }
+        if (!emailChecked || !emailValid || emailDuplicate !== false) {
+            alert('이메일 중복확인이 필요합니다.');
+            return;
+        }
+
         try {
             const res = await axios.post('/api/register', formData);
             alert(res.data);
@@ -64,7 +85,6 @@ function Signup() {
                 <h2 className={styles.title}>회원가입</h2>
 
                 <div className={styles.fieldRow}>
-                    <label htmlFor="userId">아이디</label>
                     <div className={styles.inputGroup}>
                         <input
                             name="userId"
@@ -72,6 +92,7 @@ function Signup() {
                             onChange={handleChange}
                             value={formData.userId}
                             required
+                            placeholder='아이디'
                         />
                         <button type="button" className={styles.checkButton} onClick={checkId}>
                             중복확인
@@ -82,7 +103,6 @@ function Signup() {
                 </div>
 
                 <div className={styles.fieldRow}>
-                    <label htmlFor="userPw">비밀번호</label>
                     <input
                         name="userPw"
                         id="userPw"
@@ -90,21 +110,21 @@ function Signup() {
                         onChange={handleChange}
                         value={formData.userPw}
                         required
+                        placeholder='비밀번호'
                     />
                 </div>
 
                 <div className={styles.fieldRow}>
-                    <label htmlFor="nickname">닉네임</label>
                     <input
                         name="nickname"
                         id="nickname"
                         onChange={handleChange}
                         value={formData.nickname}
+                        placeholder='닉네임'
                     />
                 </div>
 
                 <div className={styles.fieldRow}>
-                    <label htmlFor="userEmail">이메일</label>
                     <div className={styles.inputGroup}>
                         <input
                             name="userEmail"
@@ -112,6 +132,7 @@ function Signup() {
                             onChange={handleChange}
                             value={formData.userEmail}
                             required
+                            placeholder='이메일'
                         />
                         <button type="button" className={styles.checkButton} onClick={checkEmail}>
                             중복확인
@@ -124,11 +145,7 @@ function Signup() {
                     {emailValid && emailDuplicate === true && <span className={styles.errorMsg}>이미 등록된 이메일입니다.</span>}
                 </div>
 
-                <button
-                    type="submit"
-                    className={styles.submitButton}
-                    disabled={!emailValid || emailDuplicate || idDuplicate}
-                >
+                <button type="submit" className={styles.submitButton}>
                     가입하기
                 </button>
             </form>

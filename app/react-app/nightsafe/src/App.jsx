@@ -10,10 +10,9 @@ import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './contexts/AuthContext';
 import Postdetail from './pages/Postdetail';
 import PrivateRoute from './components/PrivateRoute';
+import logo from './assets/icon/logo.png'
 
-import { NavLink, Routes, Route, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { NavLink, Routes, Route } from 'react-router-dom';
 
 function AppContent() {
   const { nickname, logout, isLoggedIn } = useAuth(); // useAuth()로 로그인 상태 꺼내기
@@ -21,7 +20,7 @@ function AppContent() {
   return (
     <>
       <header id='header'>
-        <NavLink to='/' className='logo'>LOGO</NavLink>
+        <NavLink to='/' className='logo'><img src={logo} alt="로고" /></NavLink>
         <nav id='nav'>
           <ul>
             <li><NavLink to='/' className={({ isActive }) => isActive ? 'nav_active' : ''}>홈</NavLink></li>

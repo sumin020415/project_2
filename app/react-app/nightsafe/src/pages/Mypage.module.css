@@ -1,5 +1,5 @@
 .container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 24px;
     font-family: 'Noto Sans', sans-serif;
@@ -8,7 +8,7 @@
 .header {
     margin-top: 40px;
     margin-bottom: 24px;
-}
+} 
 
 .nickname {
     font-size: 32px;
@@ -47,6 +47,7 @@
 .tabActive {
     background: #ffffff;
     color: #333d4b;
+    box-shadow: var(--shadow);
 }
 
 .count {
@@ -60,7 +61,7 @@
 }
 
 .card {
-    padding: 16px;
+    padding: 20px 40px;
     background: #FFFFFF;
     border: 1px solid #E5E8EB;
     border-radius: 8px;
@@ -88,7 +89,7 @@
 .cardContent {
     font-size: 16px;
     color: #333d4b;
-    margin-top: 12px;
+    margin: 12px 0;
 }
 
 .loadMoreBtn {

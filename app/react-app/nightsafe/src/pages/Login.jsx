@@ -10,6 +10,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('id');
+  const [modalInput, setModalInput] = useState('');
+  const [findResult, setFindResult] = useState('');
 
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -56,6 +58,35 @@ const Login = () => {
     }
   };
 
+  const handleFind = async () => {
+    try {
+      if (activeTab === 'id') {
+        const res = await axios.post('/api/find-id', { email: modalInput });
+        alert(`가입된 아이디는 "${res.data.userId}" 입니다.`);
+      } else {
+        const newPassword = prompt('새 비밀번호를 입력하세요:');
+        if (!newPassword) return alert('비밀번호를 입력해야 합니다.');
+
+        await axios.post('/api/reset-password', {
+          userId: modalInput,
+          newPassword: newPassword,
+        });
+        alert('비밀번호가 성공적으로 변경되었습니다.');
+      }
+
+      setIsModalOpen(false);
+      setModalInput('');
+      setFindResult('');
+    } catch (error) {
+      if (error.response?.data?.message) {
+        alert(error.response.data.message);
+      } else {
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
+      }
+    }
+  };
+
+
   return (
     <section className={style.loginContainer}>
       <h1>로그인</h1>
@@ -88,9 +119,11 @@ const Login = () => {
             onClick={() => {
               setIsModalOpen(true);
               setActiveTab('id');
+              setModalInput('');
+              setFindResult('');
             }}
           >
-            아이디/비밀번호 찾기
+            아이디 찾기/비밀번호 수정
           </button>
         </li>
         <li>
@@ -109,20 +142,28 @@ const Login = () => {
             <div className={style.modalTabs}>
               <button
                 className={`${style.tabButton} ${activeTab === 'id' ? '' : style.activeTab}`}
-                onClick={() => setActiveTab('id')}
+                onClick={() => {
+                  setActiveTab('id')
+                  setModalInput('')
+                  setFindResult('')
+                }}
               >
                 아이디 찾기
               </button>
               <button
                 className={`${style.tabButton} ${activeTab === 'password' ? '' : style.activeTab}`}
-                onClick={() => setActiveTab('password')}
+                onClick={() => {
+                  setActiveTab('password')
+                  setModalInput('')
+                  setFindResult('')
+                }}
               >
                 비밀번호 찾기
               </button>
             </div>
 
             <h2 className={style.modaltext}>
-              {activeTab === 'id' ? '아이디 찾기' : '비밀번호 찾기'}
+              {activeTab === 'id' ? '아이디 찾기' : '비밀번호 수정'}
             </h2>
             <p className={style.modaltext}>
               {activeTab === 'id'
@@ -130,31 +171,23 @@ const Login = () => {
                 : '비밀번호를 재설정할 아이디를 입력하세요.'}
             </p>
 
-            {activeTab === 'id' && (
-              <input
-                type="email"
-                placeholder="이메일"
-                className={style.modalInput}
-              />
-            )}
+            <input
+              type={activeTab === 'id' ? 'email' : 'text'}
+              placeholder={activeTab === 'id' ? '이메일' : '아이디'}
+              className={style.modalInput}
+              value={modalInput}
+              onChange={(e) => setModalInput(e.target.value)}
+            />
 
-            {activeTab === 'password' && (
-              <input
-                type="text"
-                placeholder="아이디"
-                className={style.modalInput}
-              />
+            {findResult && (
+              <div className={style.resultMessage}>
+                {findResult}
+              </div>
             )}
 
             <div className={style.modalActions}>
               <button
-                onClick={() => {
-                  if (activeTab === 'id') {
-                    alert('아이디 찾기');
-                  } else {
-                    alert('비밀번호 찾기');
-                  }
-                }}
+                onClick={handleFind}
                 className={style.modalButton}
               >
                 찾기
@@ -174,6 +207,3 @@ const Login = () => {
 };
 
 export default Login;
-
-
-
