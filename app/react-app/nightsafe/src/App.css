@@ -32,6 +32,8 @@
   /* padding */
   --padding8_16: 8px 16px;
   --padding12_24: 12px 24px;
+  --padding10: 10px;
+  --padding12: 12px;
   --padding20: 20px;
   --padding40: 40px;
   --padding320: 320px;
@@ -146,4 +148,9 @@ button{
   font-size: var(--fontsize14);
   color: var(--black2);
   text-align: left;
+}
+
+.logout-button{
+  background: none;
+  color: var(--black2);
 }
