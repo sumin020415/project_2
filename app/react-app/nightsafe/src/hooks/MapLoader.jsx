@@ -118,15 +118,15 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
   }, [location])
 
   // 뷰포트 설정
-  const isInBounds = (map, lat, lng) => {
-    const bounds = map.getBounds()
-    const sw = bounds.getSouthWest()
-    const ne = bounds.getNorthEast()
-    return (
-      lat >= sw.getLat() && lat <= ne.getLat() &&
-      lng >= sw.getLng() && lng <= ne.getLng()
-    )
-  }
+  // const isInBounds = (map, lat, lng) => {
+  //   const bounds = map.getBounds()
+  //   const sw = bounds.getSouthWest()
+  //   const ne = bounds.getNorthEast()
+  //   return (
+  //     lat >= sw.getLat() && lat <= ne.getLat() &&
+  //     lng >= sw.getLng() && lng <= ne.getLng()
+  //   )
+  // }
 
   // 데이터 변경 시 마커 생성
   useEffect(() => {
@@ -139,113 +139,110 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
     if (selectedType === 'CCTV') data = CCTVData
     if (selectedType === '제보') data = reportData
 
-    const updateMarkers = () => {
-      // 기존 마커 초기화
-      markersRef.current.forEach(marker => marker.setMap(null))
-      markersRef.current = []
+    // 클러스터러 객체 생성
+    const clusterer = new kakao.maps.MarkerClusterer({
+      map: map,
+      averageCenter: true,
+      minLevel: 5,
+      disableClickZoom: false
+    })
 
-      // 해당 뷰포트의 데이터 필터
-      const filtered = data.filter(point =>
-        isInBounds(map, point.latitude, point.longitude)
-      )
-
-      // 필터된 데이터 마커 찍기
-      filtered.forEach(point => {
+    // 마커 배열 생성
+    const markers = data.
+      filter(point => point.latitude && point.longitude)
+      .map(point => {
         const position = new kakao.maps.LatLng(point.latitude, point.longitude)
         const marker = new kakao.maps.Marker({
-          map,
           position,
           image: getMarkerImage(selectedType)
         })
+        return marker
+      })
 
-        console.log(point)
-
-        // 마커 오버레이 생성
-        const container = document.createElement('div')
-        container.className = 'marker_info overlay'
-
-        const p = document.createElement('p')
-        p.className = 'marker_content'
-
-        if (selectedType === '제보') {
-          const nickname = document.createElement('p')
-          nickname.className = 'marker_nickname'
-          nickname.textContent = point.nickname
-
-          p.textContent = point.content
-
-          const btn = document.createElement('button')
-          btn.className = 'btn_navigate'
-          btn.textContent = '게시글 보기'
-          btn.dataset.id = point.postId
-          btn.addEventListener('click', (e) => {
-            e.stopPropagation()
-            navigate(`/posts/${btn.dataset.id}`)
-          })
-          
-          container.appendChild(nickname)
-          container.appendChild(p)
-          container.appendChild(btn)
-        } else { 
-          p.textContent = point.address ?? '해당 정보가 없습니다.'
-          container.appendChild(p)
-        }
-
-        // 해당 마커에 해당하는 오버레이 설정
-        const overlay = new kakao.maps.CustomOverlay({
-          content: container,
-          position,
-          yAnchor: 1.5
+    // 마커 오버레이 생성
+    markers.forEach((marker, i) => {
+      const point = data[i]
+      const position = marker.getPosition()
+      const container = document.createElement('div')
+      container.className = 'marker_info overlay'
+  
+      const p = document.createElement('p')
+      p.className = 'marker_content'
+  
+      if (selectedType === '제보') {
+        const nickname = document.createElement('p')
+        nickname.className = 'marker_nickname'
+        nickname.textContent = point.nickname
+  
+        p.textContent = point.content
+  
+        const btn = document.createElement('button')
+        btn.className = 'btn_navigate'
+        btn.textContent = '게시글 보기'
+        btn.dataset.id = point.postId
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation()
+          navigate(`/posts/${btn.dataset.id}`)
         })
-
-        // 클릭 이벤트로 오버레이 토글
-        kakao.maps.event.addListener(marker, 'click', () => {
-          // 기존 오버레이 제거
-          if (overlayRef.current) {
-            overlayRef.current.setMap(null)
-            if (overlayRef.current._closeHandler) {
-              document.removeEventListener('click', overlayRef.current._closeHandler)
-            }
+  
+        container.appendChild(nickname)
+        container.appendChild(p)
+        container.appendChild(btn)
+      } else {
+        p.textContent = point.address ?? '해당 정보가 없습니다.'
+        container.appendChild(p)
+      }
+  
+      // 해당 마커에 해당하는 오버레이 설정
+      const overlay = new kakao.maps.CustomOverlay({
+        content: container,
+        position,
+        yAnchor: 1.5
+      })
+  
+      // 클릭 이벤트로 오버레이 토글
+      kakao.maps.event.addListener(marker, 'click', () => {
+        // 기존 오버레이 제거
+        if (overlayRef.current) {
+          overlayRef.current.setMap(null)
+          if (overlayRef.current._closeHandler) {
+            document.removeEventListener('click', overlayRef.current._closeHandler)
+          }
+        }
+  
+        // 새로운 오버레이 설정
+        overlay.setMap(map)
+        overlayRef.current = overlay
+  
+        // 외부 클릭 시 닫기
+        const handleDocumentClick = (e) => {
+          const isInside = e.target.closest('.overlay')
+          if (!isInside) {
+            overlay.setMap(null)
+            document.removeEventListener('click', handleDocumentClick)
             overlayRef.current = null
           }
-
-          // 새로운 오버레이 설정
-          overlay.setMap(map)
-          overlayRef.current = overlay
-
-          // 외부 클릭 시 닫기
-          const handleDocumentClick = (e) => {
-            const isInside = e.target.closest('.overlay')
-            if (!isInside) {
-              overlay.setMap(null)
-              document.removeEventListener('click', handleDocumentClick)
-              overlayRef.current = null
-            }
-          }
-
-          // 핸들러 저장해서 나중에 제거할 수 있도록
-          overlay._closeHandler = handleDocumentClick
-          setTimeout(() => {
-            document.addEventListener('click', handleDocumentClick)
-          }, 0)
         }
-        )
-        markersRef.current.push(marker) // 마커 저장
+  
+        // 핸들러 저장해서 나중에 제거할 수 있도록
+        overlay._closeHandler = handleDocumentClick
+        setTimeout(() => {
+          document.addEventListener('click', handleDocumentClick)
+        }, 0)
       })
-    }
-    updateMarkers() // 최초 실행
+    })
 
-    // 지도 이동,줌 변경 될 때마다 마커 갱신
-    kakao.maps.event.addListener(map, 'idle', updateMarkers)
-    return () => {
-      // 초기화
-      kakao.maps.event.removeListener(map, 'idle', updateMarkers)
-      if (overlayRef.current) {
-        overlayRef.current.setMap(null)
-        overlayRef.current = null
-      }
+  clusterer.addMarkers(markers)
+
+  return () => {
+    // 초기화
+    clusterer.clear()
+    if (overlayRef.current) {
+      overlayRef.current.setMap(null)
+      overlayRef.current = null
     }
-  }, [lampData, CCTVData, reportData, selectedType])
+  }
+}, [lampData, CCTVData, reportData, selectedType])
 
   // 클릭 주소 좌표 추출
   useEffect(() => {
@@ -287,9 +284,7 @@ const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = fa
     }
   }, [getLatLng, onCenterChange, location])
 
-  return (
-    <div ref={mapContainer} className={className}></div>
-  )
-}
+return (<div ref={mapContainer} className={className}></div>)}
 
-export default KakaoMap;
+
+export default KakaoMap

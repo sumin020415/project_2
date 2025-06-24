@@ -35,6 +35,7 @@ const PostDetail = () => {
                     initialLike={post.likeCount}
                     initialDislike={post.dislikeCount}
                     initialUserReaction={post.userReactionType}
+                    className={styles.like_wrap}
                 />
                 <div className={styles.separator}></div>
             </div>

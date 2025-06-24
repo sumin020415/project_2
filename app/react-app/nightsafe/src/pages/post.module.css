@@ -80,8 +80,6 @@
 }
 .like_wrap{
     display: flex;
-    align-items: center;
-    justify-content: center;
     gap: var(--gap20);
 }
 .like{

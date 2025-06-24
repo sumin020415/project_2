@@ -1,67 +1,93 @@
-import React, { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect } from "react"
 import BusanSvg from "../assets/Busan.svg?react"
-import population_by_district from "../data/population_by_district.json"
 import guName from "../data/gu_name.json"
 import styles from "./analysis.module.css"
+import axios from "axios"
+import { Bar } from "react-chartjs-2"
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
+
+// Chart.js 컴포넌트 등록
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+)
 
 const Analysis = () => {
-    const [clickGu, setClickGu] = useState("Busan")
-    const [activeTab, setActiveTab] = useState("tab1")
     const [centers, setCenters] = useState([]) // 각 구 중심 좌표 배열
-    const [activeGuId, setActiveGuId] = useState(null)
+    const [address, setAddress] = useState([])
 
     const svgContainerRef = useRef(null) // BusanSvg 감싸는 div ref
 
-    const handleGuClick = (event) => {
-        const guId = event.target.id
-        const match = guName.find((item) => item.district === guId)
-        setClickGu(match ? match.rename : guId)
-        setActiveGuId(guId)
-    }
-
-    const selectedGu =
-        clickGu !== "Busan"
-            ? guName.find((item) => item.district === clickGu)
-            : null
-
-    const population =
-        clickGu !== "Busan"
-            ? population_by_district.find((item) => item.district === clickGu)
-            : {
-                district: "Busan",
-                    total_population: population_by_district.reduce(
-                        (sum, item) => sum + item.total_population,
-                        0
-                    ),
-                }
-
-    const handleTabClick = (tabId) => {
-        setActiveTab(tabId)
-    }
+    const [chartData, setChartData] = useState({
+        labels: [],
+        datasets: []
+    }) // chart에 넣을 데이터
 
     useEffect(() => {
-        const handleOutsideClick = (e) => {
-            if (svgContainerRef.current && !svgContainerRef.current.contains(e.target)) {
-                setClickGu("Busan")
-                setActiveGuId(null)
-                }
-            }
-                document.addEventListener("click", handleOutsideClick)
-                return () => document.removeEventListener("click", handleOutsideClick)
+        // 로그인 여부 상관없이 public API 사용
+        axios.get("/api/posts/public")
+            .then(res => {
+                const allDistricts = ['중구', '서구', '동구', '영도구', '부산진구', '동래구', '남구', '북구', '해운대구', '사하구', '금정구', '강서구', '연제구', '수영구', '사상구', '기장군']
+                const districts = res.data.map(v => v.address?.split(" ")[1]).filter(Boolean)
+                const districtCounts = {}
+
+                districts.forEach(name => {
+                    districtCounts[name] = (districtCounts[name] || 0) + 1
+                })
+
+                const fullCounts = allDistricts.map(name => ({
+                    name,
+                    count: districtCounts[name] || 0
+                })).sort((a, b) => b.count - a.count)
+
+                setChartData({
+                    labels: fullCounts.map(d => d.name),
+                    datasets: [
+                        {
+                            label: "제보 수",
+                            data: fullCounts.map(d => d.count),
+                            backgroundColor: "rgba(255,214,107,1)",
+                            borderRadius: 4
+                        }
+                    ]
+                })
+            })
+            .catch(err => console.error("데이터 불러오기 실패:", err));
     }, [])
 
-    useEffect(() => {
-    if (!svgContainerRef.current) return
-        const paths = svgContainerRef.current.querySelectorAll("path")
 
-        paths.forEach((path) => {
-        if (path.id === activeGuId) {
-            path.style.fill = "#FFD75E"
-        } else {
-            path.style.fill = "#E5E8EB"
+
+    const chartOptions = {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: "실시간 제보 현황"
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
         }
-        })
-    }, [activeGuId])
+    }
+
+    useEffect(() => {
+        // 로그인 여부 상관없이 public API 사용
+        axios.get("/api/posts/public")
+            .then(res => setAddress(res.data.map((v) => v.address?.split(" ")[1])))
+            .catch(err => console.error("데이터 불러오기 실패:", err));
+    }, []);
 
     useEffect(() => {
         if (!svgContainerRef.current) return
@@ -84,7 +110,7 @@ const Analysis = () => {
 
     return (
         <div className={styles.analysisWrapper}>
-            <h2>부산시 인구 및 인구 밀도 분석</h2>
+            <h2>부산시 안전 구역</h2>
 
             <div
                 className={styles.BusanMap}
@@ -92,7 +118,6 @@ const Analysis = () => {
             >
                 <div ref={svgContainerRef}>
                     <BusanSvg
-                        onClick={handleGuClick}
                         className={styles.map}
                     />
                 </div>
@@ -120,53 +145,19 @@ const Analysis = () => {
                         </div>
                     )
                 })}
+                <div className={`${styles.fixbox} ${styles.danger}`}>
+                    <div className={styles.circle}></div>
+                    <p>위험 지역</p>
+                </div>
+                <div className={`${styles.fixbox} ${styles.safe}`}>
+                    <div className={styles.circle}></div>
+                    <p>안전 지역</p>
+                </div>
             </div>
 
-            <div className={styles.dataTabs}>
-                <button
-                    className={styles.tabButton}
-                    onClick={() => handleTabClick("tab1")}
-                >
-                    <p>1번탭</p>
-                </button>
-                <div
-                    className={`${styles.tabinner} ${activeTab === "tab1" ? styles.active : ""}`}
-                >
-                    {clickGu && (
-                    <div className={styles.infoBox}>
-                        <h3>{clickGu === "Busan" ? "부산광역시" : selectedGu ? selectedGu.rename : clickGu}</h3>
-                        <p>
-                            <strong>인구:</strong>{" "}
-                            {population
-                                ? `${population.total_population.toLocaleString()}명`
-                                : "데이터 없음"}
-                        </p>
-                    </div>
-                )}
-                </div>
-
-                <button
-                    className={styles.tabButton}
-                    onClick={() => handleTabClick("tab2")}
-                >
-                    <p>2번탭</p>
-                </button>
-                <div
-                    className={`${styles.tabinner} ${activeTab === "tab2" ? styles.active : ""}`}
-                >
-                    <p>2</p>
-                </div>
-
-                <button
-                    className={styles.tabButton}
-                    onClick={() => handleTabClick("tab3")}
-                >
-                    <p>3번탭</p>
-                </button>
-                <div
-                    className={`${styles.tabinner} ${activeTab === "tab3" ? styles.active : ""}`}
-                >
-                    <p>3</p>
+            <div className={styles.PostChart}>
+                <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+                    <Bar data={chartData} options={chartOptions}></Bar>
                 </div>
             </div>
         </div>

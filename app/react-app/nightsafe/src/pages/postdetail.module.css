@@ -103,3 +103,7 @@
     font-size: 14px;
     color: #6b7684;
 }
+
+.like_wrap{
+    display: flex;
+}

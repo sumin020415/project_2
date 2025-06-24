@@ -1,56 +1,52 @@
 /* 수정 후 */
 
-.analysisWrapper{
-    width: 1300px;
-    margin: 40px auto;
-    text-align: center;
+.analysisWrapper {
+  width: 1300px;
+  margin: 40px auto;
+  text-align: center;
 }
 
-.analysisWrapper > h2{
-    margin-bottom: 40px;
+.analysisWrapper>h2 {
+  margin-bottom: 40px;
 }
 
-.BusanMap{
-    position: relative;
-    width: 600px;
-    height: 450px;
-    float: left;
+.BusanMap {
+  position: relative;
+  width: 600px;
+  height: 450px;
+  float: left;
 }
 
-.map{
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-}
-
-.dataTabs {
+.PostChart {
+  position: relative;
   width: 600px;
   height: 450px;
   float: right;
+  margin-top: 70px;
 }
 
-.tabButton{
-    width: 100%;
-    height: 35px;
-    background-color: var(--point);
-    border: solid 1px white;
-    cursor: pointer;
-    outline: none;
-    transition: background 0.3s;
-}
-
-.tabinner {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: all 0.5s ease;
-  background-color: #fafafa;
+.map {
   width: 100%;
+  height: 100%;
 }
 
-.tabinner.active {
-  max-height: 300px;
-  opacity: 1;
-  transform: translateY(0);
+.fixbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.danger .circle {
+  background-color: #F4A6A6;
+}
+
+.safe .circle {
+  background-color: #B6CDBD;
 }
