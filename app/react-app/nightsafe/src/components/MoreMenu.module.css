@@ -1,0 +1,34 @@
+.wrapper {
+    position: relative;
+}
+
+.icon {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333D4B;
+    padding: 4px 8px;
+}
+
+.menu {
+    position: absolute;
+    top: 28px;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+}
+
+.menuItem {
+    padding: 10px 20px;
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    color: #333D4B;
+    font-size: 14px;
+    cursor: pointer;
+}

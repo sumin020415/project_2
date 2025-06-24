@@ -10,4 +10,6 @@ public interface CommentRepository extends JpaRepository<Comment, String> {
     List<Comment> findByUserKeyOrderByCreatedAtDesc(String userKey);
 
     void deleteByPostId(String postId);
+
+    List<Comment> findByUserKey(String userKey);
 }

@@ -10,22 +10,26 @@
 
 .input {
     flex: 1;
-    padding: 12px;
+    padding: 10px 14px;
     border: 1px solid #E5E8EB;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 15px;
     background-color: #F8FAFB;
     color: #333D4B;
+    resize: none;
+    height: 42px;
 }
 
 .button {
     background-color: #FFD75E;
     border: none;
-    padding: 12px 20px;
+    padding: 0 20px;
     border-radius: 8px;
     font-weight: 500;
+    font-size: 15px;
     color: #333D4B;
     cursor: pointer;
+    height: 42px;
 }
 
 .commentList {
@@ -41,7 +45,13 @@
 .commentHeader {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 4px;
+    align-items: center;
+}
+
+.rightHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .nickname {

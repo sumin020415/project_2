@@ -1,5 +1,5 @@
 .container {
-    max-width: 1000px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 0 24px;
     font-family: 'Noto Sans', sans-serif;
@@ -8,7 +8,7 @@
 .header {
     margin-top: 40px;
     margin-bottom: 24px;
-} 
+}
 
 .nickname {
     font-size: 32px;
@@ -18,15 +18,14 @@
 
 .tabWrapper {
     width: 100%;
-    max-width: 1000px;
     height: 70px;
-    margin: 0 auto 40px;
     background: #F8FAFB;
     border-radius: 12px;
     display: flex;
-    justify-content: space-between;
     padding: 0 24px;
+    gap: 12px;
     align-items: center;
+    margin-bottom: 40px;
     box-sizing: border-box;
 }
 
@@ -45,9 +44,8 @@
 }
 
 .tabActive {
-    background: #ffffff;
+    background: #fff;
     color: #333d4b;
-    box-shadow: var(--shadow);
 }
 
 .count {
@@ -61,8 +59,8 @@
 }
 
 .card {
-    padding: 20px 40px;
-    background: #FFFFFF;
+    padding: 16px;
+    background: #fff;
     border: 1px solid #E5E8EB;
     border-radius: 8px;
     margin-bottom: 12px;
@@ -81,23 +79,62 @@
     color: #333d4b;
 }
 
+.cardEmail {
+    font-size: 14px;
+    color: #6b7684;
+    margin-left: 8px;
+}
+
 .cardTime {
     font-size: 14px;
     color: #6b7684;
+    margin-right: 8px;
+}
+
+.deleteBtn {
+    background: none;
+    border: none;
+    color: #333d4b;
+    cursor: pointer;
 }
 
 .cardContent {
     font-size: 16px;
     color: #333d4b;
-    margin: 12px 0;
+    margin-top: 12px;
+    margin-bottom: 12px;
 }
 
 .loadMoreBtn {
     display: block;
+    margin: 0 auto;
     background: none;
     border: none;
     color: #6b7684;
     font-size: 14px;
     cursor: pointer;
-    margin: 0 auto;
+}
+
+.like_wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.commentCount {
+    font-size: 14px;
+    color: #333d4b;
+}
+
+.rightHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.email {
+    font-size: 14px;
+    color: #6b7684;
+    margin-top: 4px;
 }

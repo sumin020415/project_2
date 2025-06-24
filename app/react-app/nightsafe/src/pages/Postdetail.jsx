@@ -1,71 +1,73 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import CommentSection from '../components/CommentSection';
-import ReactionButtons from '../components/ReactionButtons';
-import styles from './PostDetail.module.css';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import CommentSection from "../components/CommentSection";
+import ReactionButtons from "../components/ReactionButtons";
+import MoreMenu from "../components/MoreMenu";
+import styles from "./PostDetail.module.css";
 
 const PostDetail = () => {
     const { postId } = useParams();
-    const navigate = useNavigate();
     const [post, setPost] = useState(null);
     const token = localStorage.getItem("accessToken");
     const userKey = localStorage.getItem("userKey");
-    const [mypost, setMypost] = useState(false)
+
+    const fetchPost = async () => {
+        try {
+            const res = await axios.get(`/api/posts/${postId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            setPost(res.data);
+        } catch (err) {
+            alert("게시글을 불러오는 데 실패했습니다.");
+        }
+    };
 
     useEffect(() => {
-        axios.get(`/api/posts/${postId}`, { headers: { Authorization: `Bearer ${token}` } })
-            .then(res => setPost(res.data))
-            .catch(err => { console.error('실패:', err); alert('불러오기 실패'); });
+        fetchPost();
     }, [postId]);
 
-    useEffect(() => {
-        if (!post) return
-        setMypost(post.userKey === userKey)
-    }, [post, userKey])
-
-    const deletePost = async (postID) => {
-        alert('정말 삭제하시겠습니까?')
-        try{
-            const res = await axios.delete(`/api/posts/${postID}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-            alert('게시글이 삭제되었습니다.')
-            navigate('/post')
-        } catch (err) {
-            alert('게시글 삭제 중 오류가 발생했습니다.')
-            console.log(err)
+    const handleDelete = async () => {
+        if (!window.confirm("게시글을 삭제하시겠습니까?")) return;
+        try {
+            await axios.delete(`/api/posts/${post.postId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            window.location.href = "/post"; // 제보 페이지로 이동
+        } catch {
+            alert("삭제에 실패했습니다.");
         }
-    }
+    };
 
-    if (!post) return <p className={styles.loading}>로딩 중...</p>;
+    if (!post) return <p>로딩 중...</p>;
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.postCard}>
                 <div className={styles.header}>
                     <span className={styles.nickname}>{post.nickname}</span>
-                    <span className={styles.time}>{new Date(post.createdAt).toLocaleString('ko-KR')}</span>
+                    <div className={styles.rightHeader}>
+                        <span className={styles.time}>
+                            {new Date(post.createdAt).toLocaleString("ko-KR")}
+                        </span>
+                        {post.userKey === userKey && <MoreMenu onDelete={handleDelete} />}
+                    </div>
                 </div>
                 <div className={styles.address}>{post.address}</div>
                 <div className={styles.content}>{post.content}</div>
-                {post.imageUrl && <img className={styles.image} src={post.imageUrl} alt="첨부" />}
-                <div className={styles.like_wrap}>
-                    <ReactionButtons
-                        postId={post.postId}
-                        initialLike={post.likeCount}
-                        initialDislike={post.dislikeCount}
-                        initialUserReaction={post.userReactionType}
-                    />
-                    {mypost && <button className={styles.btn_delete} onClick={() => deletePost(postId)}>게시글 삭제하기</button>}
-                </div>
-
+                {post.imageUrl && (
+                    <img src={post.imageUrl} alt="게시글 이미지" className={styles.image} />
+                )}
+                <ReactionButtons
+                    postId={post.postId}
+                    initialLike={post.likeCount}
+                    initialDislike={post.dislikeCount}
+                    initialUserReaction={post.userReactionType}
+                />
                 <div className={styles.separator}></div>
             </div>
 
-            <CommentSection postId={postId} />
+            <CommentSection postId={postId} onAfterDelete={fetchPost} />
         </div>
     );
 };

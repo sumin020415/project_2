@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -66,6 +67,26 @@ public class CommentService {
     public List<CommentDTO> getCommentsByUserKey(String userKey) {
         return commentRepository.findByUserKeyOrderByCreatedAtDesc(userKey)
                 .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public boolean deleteComment(String commentId, String userKey) {
+        Optional<Comment> commentOpt = commentRepository.findById(commentId);
+
+        if (commentOpt.isPresent()) {
+            Comment comment = commentOpt.get();
+            if (comment.getUserKey().equals(userKey)) {
+                commentRepository.deleteById(commentId);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public List<CommentDTO> getCommentsByUser(String userKey) {
+        return commentRepository.findByUserKey(userKey).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }

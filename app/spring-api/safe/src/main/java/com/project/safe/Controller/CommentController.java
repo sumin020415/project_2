@@ -57,4 +57,22 @@ public class CommentController {
         List<CommentDTO> myComments = commentService.getCommentsByUserKey(member.getUserKey());
         return ResponseEntity.ok(myComments);
     }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable String commentId,
+            @RequestHeader("Authorization") String authHeader) {
+        String userId = jwtUtil.getUserIdFromToken(authHeader);
+        Member member = memberRepository.findByUserId(userId);
+
+        if (member == null) {
+            return ResponseEntity.status(401).body("인증 실패");
+        }
+
+        boolean deleted = commentService.deleteComment(commentId, member.getUserKey());
+        if (deleted) {
+            return ResponseEntity.ok("댓글이 삭제되었습니다.");
+        } else {
+            return ResponseEntity.status(403).body("삭제 권한이 없습니다.");
+        }
+    }
 }
