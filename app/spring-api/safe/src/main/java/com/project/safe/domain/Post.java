@@ -48,12 +48,14 @@ public class Post {
     @PrePersist
     public void prePersist() {
         this.postId = UUID.randomUUID().toString().replace("-", "").toUpperCase();
-        // this.createdAt = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
+        // this.createdAt =
+        // ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
     }
 
     @PreUpdate
     public void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
+        // this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 
     public String getPostId() {

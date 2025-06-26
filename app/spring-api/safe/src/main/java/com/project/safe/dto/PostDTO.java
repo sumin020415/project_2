@@ -15,6 +15,7 @@ public class PostDTO {
     private String category;
     private String address;
     private String nickname;
+    private LocalDateTime updatedAt;
 
     public String getUserKey() {
         return userKey;
@@ -130,5 +131,13 @@ public class PostDTO {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

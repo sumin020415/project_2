@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import styles from './MoreMenu.module.css';
 
-const MoreMenu = ({ onDelete }) => {
+const MoreMenu = ({ onDelete, onEdit }) => {
     const [open, setOpen] = useState(false);
     const ref = useRef();
 
@@ -16,6 +16,9 @@ const MoreMenu = ({ onDelete }) => {
             <button className={styles.icon} onClick={() => setOpen(o => !o)}>⋯</button>
             {open && (
                 <div className={styles.menu}>
+                    <button className={styles.menuItem} onClick={() => { setOpen(false); onEdit(); }}>
+                        수정
+                    </button>
                     <button className={styles.menuItem} onClick={() => { setOpen(false); onDelete(); }}>
                         삭제
                     </button>

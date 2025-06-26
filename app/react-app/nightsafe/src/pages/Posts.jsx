@@ -85,15 +85,13 @@ const Posts = () => {
                                         <p>{new Date(post.createdAt).toLocaleString()}</p>
                                     </div>
                                     <p className={postStyle.content}>{post.content}</p>
-                                    <div className={postStyle.bottom_wrap}>
-                                        {isLoggedIn && (
+                                    <div className={postStyle.bottom_wrap} onClick={(e) => e.stopPropagation()}>
                                             <ReactionButtons
                                                 postId={post.postId}
                                                 initialLike={post.likeCount}
                                                 initialDislike={post.dislikeCount}
                                                 initialUserReaction={post.userReactionType}
                                             />
-                                        )}
                                         <div className={postStyle.comment_wrap}>
                                             <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#a)"><path d="M25.92 27H8c-.55 0-1-.45-1-1V8c0-.55.45-1 1-1h22c.55 0 1 .45 1 1v22c0 1-.45 1.61-2.06 0-.52-.52-1.86-1.84-3.02-3" fill="#FFC44D" /><path d="M25 2v5H8c-.55 0-1 .45-1 1v13H2c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h22c.6 0 1 .44 1 1" fill="#FFE6EA" /><path d="M23.875 25s4.062 4 5.062 5C30.547 31.609 31 31 31 30V8a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v18a1 1 0 0 0 1 1h14m-9-12h12m-12 4h5m7-15V2c0-.563-.396-1-1-1H2a1 1 0 0 0-1 1v18a1 1 0 0 0 1 1h5" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h32v32H0z" /></clipPath></defs></svg>
                                             <p>{post.commentCount}</p>

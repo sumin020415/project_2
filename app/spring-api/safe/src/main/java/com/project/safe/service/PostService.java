@@ -79,6 +79,7 @@ public class PostService {
         dto.setCategory(post.getCategory());
         dto.setAddress(post.getAddress());
         dto.setUserKey(post.getUserKey());
+        // dto.setUpdatedAt(post.getUpdatedAt());
 
         // 닉네임 직접 조회 (Optional 없이)
         Member member = memberRepository.findByUserKey(post.getUserKey());
@@ -110,5 +111,24 @@ public class PostService {
         reactionRepository.deleteByPostId(postId);
         commentRepository.deleteByPostId(postId);
         postRepository.deleteById(postId);
+    }
+
+    public void updatePost(String postId, String userKey, PostDTO dto) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다."));
+
+        if (!post.getUserKey().equals(userKey)) {
+            throw new RuntimeException("게시글 수정 권한이 없습니다.");
+        }
+
+        post.setContent(dto.getContent());
+        post.setLatitude(dto.getLatitude());
+        post.setLongitude(dto.getLongitude());
+        post.setImageUrl(dto.getImageUrl());
+        post.setCategory(dto.getCategory());
+        post.setAddress(dto.getAddress());
+        post.setUpdatedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul"))); // 수동 세팅 가능하지만 @PreUpdate가 있어도 됨
+
+        postRepository.save(post);
     }
 }

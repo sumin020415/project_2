@@ -87,3 +87,21 @@
   padding: var(--padding12_24);
   box-shadow: var(--shadow);
 }
+
+.searchbutton_wrap{
+  position: absolute;
+  z-index: 9999;
+  top: 20px;
+  left: 20px;
+}
+
+.btn_searchplace {
+  padding: var(--padding12);
+  box-shadow: var(--shadow);
+  background: #fff;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}

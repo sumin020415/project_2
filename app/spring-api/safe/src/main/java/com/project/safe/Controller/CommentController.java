@@ -75,4 +75,27 @@ public class CommentController {
             return ResponseEntity.status(403).body("삭제 권한이 없습니다.");
         }
     }
+
+    @PutMapping("/{commentId}")
+    public ResponseEntity<?> updateComment(
+            @PathVariable String commentId,
+            @RequestBody CommentDTO dto,
+            @RequestHeader("Authorization") String authHeader) {
+
+        String userId = jwtUtil.getUserIdFromToken(authHeader);
+        Member member = memberRepository.findByUserId(userId);
+
+        if (member == null) {
+            return ResponseEntity.status(401).body("인증 실패");
+        }
+
+        boolean updated = commentService.updateComment(commentId, dto.getContent(), member.getUserKey());
+
+        if (updated) {
+            return ResponseEntity.ok("댓글이 수정되었습니다.");
+        } else {
+            return ResponseEntity.status(403).body("수정 권한이 없습니다.");
+        }
+    }
+
 }

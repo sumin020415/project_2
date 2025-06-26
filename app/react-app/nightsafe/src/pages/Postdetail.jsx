@@ -9,6 +9,8 @@ import styles from "./PostDetail.module.css";
 const PostDetail = () => {
     const { postId } = useParams();
     const [post, setPost] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedContent, setEditedContent] = useState("");
     const token = localStorage.getItem("accessToken");
     const userKey = localStorage.getItem("userKey");
 
@@ -18,6 +20,7 @@ const PostDetail = () => {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setPost(res.data);
+            setEditedContent(res.data.content); // 초기화
         } catch (err) {
             alert("게시글을 불러오는 데 실패했습니다.");
         }
@@ -39,6 +42,26 @@ const PostDetail = () => {
         }
     };
 
+    const handleSaveEdit = async () => {
+        // console.log("accessToken", token);
+        try {
+            await axios.put(`/api/posts/${post.postId}`, {
+                content: editedContent,
+                latitude: post.latitude,
+                longitude: post.longitude,
+                imageUrl: post.imageUrl,
+                category: post.category,
+                address: post.address
+            }, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            setIsEditing(false);
+            fetchPost(); // 새로고침
+        } catch {
+            alert("수정에 실패했습니다.");
+        }
+    };
+
     if (!post) return <p>로딩 중...</p>;
 
     return (
@@ -49,12 +72,34 @@ const PostDetail = () => {
                     <div className={styles.rightHeader}>
                         <span className={styles.time}>
                             {new Date(post.createdAt).toLocaleString("ko-KR")}
+                            {post.updatedAt !== post.createdAt && (
+                                <span className={styles.editedTag}> (수정됨)</span>
+                            )}
                         </span>
-                        {post.userKey === userKey && <MoreMenu onDelete={handleDelete} />}
+                        {post.userKey === userKey && (
+                            <MoreMenu
+                                onDelete={handleDelete}
+                                onEdit={() => setIsEditing(true)}
+                            />
+                        )}
                     </div>
                 </div>
                 <div className={styles.address}>{post.address}</div>
-                <div className={styles.content}>{post.content}</div>
+                {isEditing ? (
+                    <div>
+                        <textarea
+                            className={styles.editInput}
+                            value={editedContent}
+                            onChange={(e) => setEditedContent(e.target.value)}
+                        />
+                        <div className={styles.editButtons}>
+                            <button onClick={handleSaveEdit}>저장</button>
+                            <button onClick={() => setIsEditing(false)}>취소</button>
+                        </div>
+                    </div>
+                ) : (
+                    <div className={styles.content}>{post.content}</div>
+                )}
                 {post.imageUrl && (
                     <img src={post.imageUrl} alt="게시글 이미지" className={styles.image} />
                 )}

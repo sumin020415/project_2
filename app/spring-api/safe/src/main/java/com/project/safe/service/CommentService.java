@@ -52,6 +52,7 @@ public class CommentService {
         dto.setContent(comment.getContent());
         dto.setCreatedAt(comment.getCreatedAt());
         dto.setParentId(comment.getParentId());
+        dto.setUpdatedAt(comment.getUpdatedAt());
 
         // 닉네임 세팅 (member가 null일 수도 있으므로 안전하게 처리)
         Member member = memberRepository.findByUserKey(comment.getUserKey());
@@ -89,5 +90,20 @@ public class CommentService {
         return commentRepository.findByUserKey(userKey).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
+    }
+
+    public boolean updateComment(String commentId, String newContent, String userKey) {
+        Optional<Comment> commentOpt = commentRepository.findById(commentId);
+
+        if (commentOpt.isPresent()) {
+            Comment comment = commentOpt.get();
+            if (comment.getUserKey().equals(userKey)) {
+                comment.setContent(newContent);
+                commentRepository.save(comment);
+                return true;
+            }
+        }
+
+        return false;
     }
 }

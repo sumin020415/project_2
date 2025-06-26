@@ -49,7 +49,7 @@ const Mypage = () => {
 
             <div className={styles.section}>
                 {activeTab === 'posts' && myPosts.slice(0, visiblePosts).map(post => (
-                    <div key={post.postId} className={styles.card}>
+                    <div key={post.postId} className={styles.card} onClick={() => navigate(`/posts/${post.postId}`)}>
                         <div className={styles.cardHeader}>
                             <span className={styles.cardNickname}>{userInfo.nickname}</span>
                             <div className={styles.rightHeader}>
@@ -81,7 +81,7 @@ const Mypage = () => {
                 )}
 
                 {activeTab === 'comments' && myComments.slice(0, visibleComments).map(comment => (
-                    <div key={comment.commentId} className={styles.card}>
+                    <div key={comment.commentId} className={styles.card} onClick={() => navigate(`posts/${comment.postId}`)}>
                         <div className={styles.cardHeader}>
                             <span className={styles.cardNickname}>{userInfo.nickname}</span>
                             <div className={styles.rightHeader}>

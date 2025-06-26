@@ -1,25 +1,26 @@
-.map{
+.map {
     width: 100%;
     height: 100%;
 }
 
-.map_wrap{
+.map_wrap {
     width: 100%;
     height: calc(100vh - var(--navheight));
     position: relative;
 }
 
-.tab_wrap{
+.tab_wrap {
     position: absolute;
     top: var(--margin20);
     left: var(--margin20);
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: var(--gap8);
     z-index: 999;
 }
 
-.btn_tab{
+.btn_tab {
     box-shadow: var(--shadow);
     background-color: #fff;
     border-radius: 50px;
@@ -31,16 +32,16 @@
     font-size: var(--fontsize14);
 }
 
-.tab_icon{
+.tab_icon {
     height: 32px;
 }
 
-.tab_active{
+.tab_active {
     color: var(--black1);
     font-weight: bold;
 }
 
-.btn_write{
+.btn_write {
     border-radius: 50px;
     padding: var(--padding12_24);
     background-color: var(--point);
@@ -53,4 +54,74 @@
     color: var(--black1);
     font-family: 'NotoSans';
     font-size: var(--fontsize16);
+}
+
+.btn_search {
+    padding: var(--padding12);
+    box-shadow: var(--shadow);
+    background: #fff;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.inp_search {
+    border: none;
+    width: 0;
+    border-radius: 0;
+    font-size: var(--fontsize14);
+    padding: 0;
+    height: 100%;
+    transition: all 0.3s;
+}
+
+.inp_search:focus {
+    border-color: none;
+    box-shadow: none;
+}
+
+.inp_search_active {
+    margin-left: 8px;
+    width: 200px;
+}
+
+.result_box {
+    width: 100%;
+    height: 200px;
+    overflow-y: scroll;
+    border-radius: var(--border_radius);
+    box-shadow: var(--shadow);
+    position: absolute;
+    top: 52px;
+    left: 0;
+    background: #fff;
+    color: var(--black1);
+    text-align: left;
+    font-size: var(--fontsize14);
+}
+
+.li_result {
+    padding: var(--padding8_16);
+    border-bottom: 1px solid var(--gray1);
+    transition: all 0.3s;
+}
+
+.li_result:hover {
+    background: var(--gray1);
+}
+
+.result_placename {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.result_address {
+    margin-top: var(--margin8);
+    color: var(--black2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

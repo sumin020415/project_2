@@ -10,6 +10,7 @@ public class CommentDTO {
     private String nickname;
     private LocalDateTime createdAt;
     private String parentId;
+    private LocalDateTime updatedAt;
 
     public String getCommentId() {
         return commentId;
@@ -67,15 +68,11 @@ public class CommentDTO {
         this.nickname = nickname;
     }
 
-    // @Override
-    // public String toString() {
-    // return "CommentDTO{" +
-    // "commentId='" + commentId + '\'' +
-    // ", postId='" + postId + '\'' +
-    // ", userKey='" + userKey + '\'' +
-    // ", content='" + content + '\'' +
-    // ", createdAt=" + createdAt +
-    // ", parentId='" + parentId + '\'' +
-    // '}';
-    // }
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
