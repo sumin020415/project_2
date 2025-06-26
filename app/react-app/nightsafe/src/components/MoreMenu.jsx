@@ -13,7 +13,7 @@ const MoreMenu = ({ onDelete, onEdit }) => {
 
     return (
         <div ref={ref} className={styles.wrapper}>
-            <button className={styles.icon} onClick={() => setOpen(o => !o)}>⋯</button>
+            <button className={styles.icon} onClick={(e) => {e.stopPropagation(); setOpen(o => !o)}}>⋯</button>
             {open && (
                 <div className={styles.menu}>
                     <button className={styles.menuItem} onClick={() => { setOpen(false); onEdit(); }}>

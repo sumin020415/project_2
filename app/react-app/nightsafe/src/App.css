@@ -74,6 +74,7 @@ button{
   border: none;
   font-size: var(--fontsize16);
   cursor: pointer;
+  color: var(--black1);
 }
 
 #header{

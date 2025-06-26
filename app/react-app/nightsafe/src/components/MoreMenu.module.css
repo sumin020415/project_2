@@ -13,6 +13,7 @@
 
 .menu {
     position: absolute;
+    width: 80px;
     top: 28px;
     right: 0;
     background: #fff;
@@ -23,7 +24,7 @@
 }
 
 .menuItem {
-    padding: 10px 20px;
+    padding: var(--padding12_24);
     width: 100%;
     background: none;
     border: none;

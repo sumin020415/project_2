@@ -71,3 +71,30 @@
     white-space: pre-wrap;
     color: #333D4B;
 }
+
+.editInput{
+    width: 100%;
+    resize: none;
+    height: 200px;
+    padding: var(--padding20);
+    border: 1px solid var(--gray1);
+    border-radius: var(--border_radius);
+    font-size: var(--fontsize16);
+    font-family: 'NotoSans';
+    color: var(--black1);
+}
+
+.editButtons{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: var(--gap8);
+    margin-top: var(--margin8);
+}
+
+.editButtons button{
+    background: var(--point);
+    padding: var(--padding12_24);
+    border-radius: var(--border_radius);
+}

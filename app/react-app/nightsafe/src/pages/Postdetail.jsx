@@ -10,6 +10,7 @@ const PostDetail = () => {
     const { postId } = useParams();
     const [post, setPost] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [isEdited, setIsEdited] = useState(false)
     const [editedContent, setEditedContent] = useState("");
     const token = localStorage.getItem("accessToken");
     const userKey = localStorage.getItem("userKey");
@@ -57,6 +58,7 @@ const PostDetail = () => {
             });
             setIsEditing(false);
             fetchPost(); // 새로고침
+            setIsEdited(true);
         } catch {
             alert("수정에 실패했습니다.");
         }
@@ -73,7 +75,7 @@ const PostDetail = () => {
                         <span className={styles.time}>
                             {new Date(post.createdAt).toLocaleString("ko-KR")}
                             {post.updatedAt !== post.createdAt && (
-                                <span className={styles.editedTag}> (수정됨)</span>
+                                <span className={styles.editedTag}> {isEdited && "(수정됨)"}</span>
                             )}
                         </span>
                         {post.userKey === userKey && (
