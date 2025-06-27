@@ -5,10 +5,11 @@ import svgr from "vite-plugin-svgr";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), svgr()],
+  base: './',
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080', // 스프링 서버 주소
+        target: 'http://localhost:8330', // 스프링 서버 주소
         changeOrigin: true,
         secure: false,
       },

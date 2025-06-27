@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import lampIcon from '../assets/icon/lamp.png'
 import cctvIcon from '../assets/icon/cctv.png'
 import reportIcon from '../assets/icon/report.png'
-import { map } from 'lodash';
 
 const KakaoMap = ({ className, selectedType, showMarkers = false, getLatLng = false, onCenterChange, selectedLocation }) => {
   const navigate = useNavigate()

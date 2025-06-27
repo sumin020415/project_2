@@ -80,6 +80,7 @@
 .inp_search:focus {
     border-color: none;
     box-shadow: none;
+    outline: none;
 }
 
 .inp_search_active {
