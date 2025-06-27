@@ -16,10 +16,10 @@ const MoreMenu = ({ onDelete, onEdit }) => {
             <button className={styles.icon} onClick={(e) => {e.stopPropagation(); setOpen(o => !o)}}>⋯</button>
             {open && (
                 <div className={styles.menu}>
-                    <button className={styles.menuItem} onClick={() => { setOpen(false); onEdit(); }}>
+                    <button className={styles.menuItem} onClick={() => { setOpen(false); onEdit(); e.stopPropagation() }}>
                         수정
                     </button>
-                    <button className={styles.menuItem} onClick={() => { setOpen(false); onDelete(); }}>
+                    <button className={styles.menuItem} onClick={(e) => { setOpen(false); onDelete(); e.stopPropagation() }}>
                         삭제
                     </button>
                 </div>
