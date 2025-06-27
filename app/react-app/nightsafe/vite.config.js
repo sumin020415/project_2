@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080', // 스프링 서버 주소
+        target: 'http://localhost:8330', // 스프링 서버 주소
         changeOrigin: true,
         secure: false,
       },

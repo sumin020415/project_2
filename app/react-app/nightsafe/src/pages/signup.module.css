@@ -1,4 +1,4 @@
-.container {
+/* .container {
   width: 520px;
   margin: 120px auto;
   border-radius: 8px;
@@ -106,4 +106,153 @@ label {
   color: red;
   margin-top: -2px;
   min-height: 18px;
+} */
+
+
+
+.container {
+  width: 520px;
+  margin: 120px auto;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: -2px;
+  color: #333D4B;
+  text-align: left;
+  margin-bottom: 40px;
+  padding-bottom: 0;
+}
+
+.fieldRow {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  gap: 20px;
+}
+
+.inputGroup input {
+  flex: 1;
+}
+
+.signupInput {
+  height: 60px;
+  padding: 20px;
+  border: 1px solid #E5E8EB;
+  border-radius: 12px;
+  font-size: 16px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.signupInput:focus {
+  border-color: var(--point);
+  box-shadow: 0 0 5px var(--point);
+}
+
+.inputGroup input:focus {
+  border-color: var(--point);
+  box-shadow: 0 0 5px var(--point);
+}
+
+.signupSelect {
+  height: 60px;
+  padding: 0 20px;
+  font-size: 16px;
+  border: 1px solid #E5E8EB;
+  border-radius: 12px;
+  background-color: #fff;
+  outline: none;
+  box-sizing: border-box;
+  line-height: 60px;
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+}
+
+.checkButton {
+  width: 100px;
+  height: 60px;
+  background-color: var(--point);
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  color: var(--black1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.checkButton:disabled {
+  background-color: #E0E0E0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6B7684;
+  margin-bottom: 4px;
+}
+
+.submitButton {
+  height: 60px;
+  background-color: var(--point);
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  color: var(--black1);
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:disabled {
+  background-color: #E0E0E0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.errorMsg {
+  font-size: 13px;
+  color: red;
+  margin-top: -2px;
+  min-height: 18px;
+}
+
+.emailGroup {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.emailInput {
+  flex: 1;
+}
+
+.atSymbol {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.domainInput {
+  height: 60px;
+  padding: 0 20px;
+  font-size: 16px;
+  border: 1px solid #E5E8EB;
+  border-radius: 12px;
+  outline: none;
+  box-sizing: border-box;
 }

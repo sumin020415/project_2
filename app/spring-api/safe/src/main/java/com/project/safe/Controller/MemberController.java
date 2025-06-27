@@ -90,8 +90,8 @@ public class MemberController {
         Member member = memberRepository.findByUserEmail(email);
         if (member == null) {
             return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(Map.of("message", "해당 이메일로 가입된 아이디가 없습니다."));
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "해당 이메일로 가입된 아이디가 없습니다."));
         }
         return ResponseEntity.ok(Map.of("userId", member.getUserId()));
     }
@@ -155,5 +155,11 @@ public class MemberController {
     public ResponseEntity<Map<String, Boolean>> checkEmail(@RequestParam String email) {
         boolean duplicate = memberRepository.existsByUserEmail(email);
         return ResponseEntity.ok(Map.of("duplicate", duplicate));
+    }
+
+    @GetMapping("/check-nickname")
+    public ResponseEntity<?> checkNicknameDuplicate(@RequestParam String nickname) {
+        boolean exists = memberRepository.existsByNickname(nickname);
+        return ResponseEntity.ok(Map.of("duplicate", exists));
     }
 }
